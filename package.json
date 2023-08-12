@@ -1,0 +1,72 @@
+{
+  "name": "research-activities-react-client",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@balkangraph/orgchart.js": "^7.1.95",
+    "@emotion/core": "^10.1.1",
+    "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "^4.11.2",
+    "@material-ui/lab": "^4.0.0-alpha.57",
+    "@mdi/js": "^5.9.55",
+    "@mdi/react": "^1.5.0",
+    "@react-md/tree": "^2.7.1",
+    "@react-pdf/renderer": "^2.0.0-beta.6",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.4.0",
+    "@testing-library/user-event": "^7.2.1",
+    "axios": "^0.19.2",
+    "blob-util": "^2.0.2",
+    "bootstrap": "^4.6.0",
+    "btoa": "^1.2.1",
+    "chart.js": "^2.9.4",
+    "datatables": "^1.10.18",
+    "highcharts": "^8.1.2",
+    "highcharts-react-official": "^3.0.0",
+    "jquery": "^3.5.1",
+    "material-ui-icons": "^1.0.0-beta.36",
+    "node-sass": "^4.14.1",
+    "popper.js": "^1.16.1",
+    "react": "^16.12.0",
+    "react-bootstrap": "^1.5.2",
+    "react-c3js": "^0.1.20",
+    "react-chartjs-2": "^2.11.1",
+    "react-collapsible": "^2.8.0",
+    "react-d3-tree": "^2.0.1",
+    "react-dom": "^16.12.0",
+    "react-emotion": "^10.0.0",
+    "react-hyper-tree": "^0.2.18",
+    "react-lottie": "^1.2.3",
+    "react-orgchart": "^1.0.5",
+    "react-redux": "^7.2.0",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "^3.4.0",
+    "react-select": "^4.3.0",
+    "react-spinners": "^0.9.0",
+    "reactjs-treeview": "^1.0.2",
+    "redux": "^4.0.5",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0",
+    "sweetalert": "^2.1.2",
+    "uint8-to-base64": "^0.2.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
