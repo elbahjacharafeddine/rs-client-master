@@ -30,12 +30,23 @@
   
   .chart-containerr .pp-person {
     width: 120px;
-    /* height: 120px; */
+    margin-top: 20px;
+    margin-left: 15px;
+    /* height: 170px; */
     font-size: 10px;
     transform: rotate(-90deg);
     /* white-space: nowrap; */
   }
   
+  .chart-containerr .pp-person .person-avatar {
+    width: 40px;
+    height: 40px;
+  }
+
+  .chart-containerr .pp-person .person-name {
+    font-size: 30px;
+  }
+
   .organigramme-containerr{
     overflow-x: auto;
   }

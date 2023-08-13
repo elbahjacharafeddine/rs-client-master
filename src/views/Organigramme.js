@@ -337,11 +337,11 @@ const Organigramme = () => {
     return (
         <>
             <div className="page-header">
-                <PageHeader
+                {/* <PageHeader
                     title={`Organigramme de laboratoire ${UserHelper.userHeadedLaboratories(
                         user
                     )}`}
-                />
+                /> */}
 
             </div>
             {!isLoading ?
@@ -357,7 +357,8 @@ const Organigramme = () => {
                     />
                     <div className={`${printed ? 'organigramme-container' : 'organigramme-containerr'}`} ref={chartRef} id="content">
 
-
+                        
+                    <h4 className='text-center'>{`Organigramme de laboratoire ${UserHelper.userHeadedLaboratories(user)}`}</h4>
                         <div className={`${printed ? 'chart-wrapper' : 'chart-wrapperr'}`} >
                             <OrganizationChart value={datta} nodeTemplate={nodeTemplate} className={`${printed ? 'chart-container' : 'chart-containerr'}`} />
                         </div>
