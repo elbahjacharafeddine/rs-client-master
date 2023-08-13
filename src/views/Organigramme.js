@@ -45,12 +45,10 @@ const Organigramme = () => {
         "aqua",
         "aquamarine",
         "beige",
-        "bisque",
-        "black",
+        // "bisque",
         "blanchedalmond",
         "blue",
         "blueviolet",
-        "brown",
         "burlywood",
         "cadetblue",
         "chartreuse",
@@ -58,49 +56,25 @@ const Organigramme = () => {
         "coral",
         "cornflowerblue",
         "cornsilk",
-        "crimson",
         "cyan",
-        "darkblue",
-        "darkcyan",
-        "darkgoldenrod",
-        "darkgray",
-        "darkgreen",
-        "darkkhaki",
-        "darkmagenta",
-        "darkolivegreen",
         "darkorange",
-        "darkorchid",
-        "darkred",
-        "darksalmon",
         "darkseagreen",
-        "darkslateblue",
-        "darkslategray",
         "darkturquoise",
         "darkviolet",
         "deeppink",
         "deepskyblue",
-        "dimgray",
-        "dodgerblue",
-        "firebrick",
         "floralwhite",
-        "forestgreen",
-        "fuchsia",
         "gainsboro",
         "ghostwhite",
         "gold",
         "goldenrod",
-        "gray",
         "green",
         "greenyellow",
         "honeydew",
-        "hotpink",
-        "indianred",
-        "indigo",
         "ivory",
         "khaki",
         "lavender",
         "lavenderblush",
-        "lawngreen",
         "lemonchiffon",
         "lightblue",
         "lightcoral",
@@ -110,67 +84,45 @@ const Organigramme = () => {
         "lightgreen",
         "lightpink",
         "lightsalmon",
-        "lightseagreen",
         "lightskyblue",
         "lightslategray",
         "lightsteelblue",
         "lightyellow",
         "lime",
-        "limegreen",
         "linen",
         "magenta",
-        "maroon",
         "mediumaquamarine",
-        "mediumblue",
-        "mediumorchid",
-        "mediumpurple",
-        "mediumseagreen",
-        "mediumslateblue",
         "mediumspringgreen",
         "mediumturquoise",
         "mediumvioletred",
-        "midnightblue",
         "mintcream",
         "mistyrose",
         "moccasin",
         "navajowhite",
-        "navy",
         "oldlace",
-        "olive",
-        "olivedrab",
-        "orange",
-        "orangered",
-        "orchid",
         "palegoldenrod",
         "palegreen",
         "paleturquoise",
         "palevioletred",
         "papayawhip",
         "peachpuff",
-        "peru",
         "pink",
         "plum",
         "powderblue",
         "purple",
-        "rebeccapurple",
         "red",
         "rosybrown",
-        "royalblue",
-        "saddlebrown",
         "salmon",
         "sandybrown",
         "seagreen",
         "seashell",
         "sienna",
-        "silver",
         "skyblue",
         "slateblue",
-        "slategray",
         "snow",
         "springgreen",
         "steelblue",
         "tan",
-        "teal",
         "thistle",
         "tomato",
         "turquoise",
@@ -204,16 +156,18 @@ const Organigramme = () => {
             });
     };
 
+    let element = -1
     const childrenData = dataChefsEquipes.map((item) => {
-        const randomIndex = getRandomIndex(colors);
+        // const randomIndex = getRandomIndex(colors);
+        element += 1;
         return {
             label: item.title,
             type: 'person',
             className: `${printed ? 'p-person' : 'pp-person'}`,
             expanded: true,
             data: { name: item.name, avatar: logo },
-            children: childernDataMembres(dataMembres, item, colors[randomIndex]),
-            style: { background: colors[randomIndex] }
+            children: childernDataMembres(dataMembres, item, colors[element]),
+            style: { background: colors[element] }
         };
     });
 
@@ -236,6 +190,7 @@ const Organigramme = () => {
                         // console.log(e.name + "chef de " + element.name);
                         e.title = e.title + " " + element.name
                         setDataChefsEquipes((x) => [...x, e])
+
                     }
                 })
             }
@@ -248,6 +203,7 @@ const Organigramme = () => {
 
     useEffect(() => {
         updateNodes();
+
     }, []);
 
     const datta = [
@@ -328,7 +284,7 @@ const Organigramme = () => {
 
 
     const handlePrintClick = () => {
-        setPrinted(false)
+        console.log(dataChefsEquipes.length + " la longueur de chef des equipes");
 
     }
 
@@ -348,7 +304,7 @@ const Organigramme = () => {
                 <>
                     {/* <button onClick={handlePrint} className='btn btn-primary'>Imprimer</button> */}
                     <img onClick={handlePivote} src={pivote} width='40px' height='40px' />
-                    {printed &&<p class="small text-danger">Cliquez sur la flèche pour activer l'impression</p>}
+                    {printed && <p class="small text-danger">Cliquez sur la flèche pour activer l'impression</p>}
 
 
                     <ReactToPrint
@@ -357,8 +313,8 @@ const Organigramme = () => {
                     />
                     <div className={`${printed ? 'organigramme-container' : 'organigramme-containerr'}`} ref={chartRef} id="content">
 
-                        
-                    <h4 className='text-center'>{`Organigramme de laboratoire ${UserHelper.userHeadedLaboratories(user)}`}</h4>
+
+                        <h4 className='text-center'>{`Organigramme de laboratoire ${UserHelper.userHeadedLaboratories(user)}`}</h4>
                         <div className={`${printed ? 'chart-wrapper' : 'chart-wrapperr'}`} >
                             <OrganizationChart value={datta} nodeTemplate={nodeTemplate} className={`${printed ? 'chart-container' : 'chart-containerr'}`} />
                         </div>
