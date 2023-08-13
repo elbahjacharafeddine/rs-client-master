@@ -11,12 +11,16 @@ import Box from '@mui/material/Box';
 import '../views/styleOrganigramme.css'
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
-
+import pivote from '../assets/images/pivot.png'
 import ReactDOMServer from 'react-dom/server';
-import { Avatar } from '@mui/material';
 
 import domtoimage from 'dom-to-image';
 import logo from '../assets/images/avatar.jpg'
+
+import ReactToPrint from "react-to-print";
+
+
+
 const Organigramme = () => {
     const { user, ApiServices, UserHelper } = useContext(AppContext);
     const { laboratoryService } = ApiServices;
@@ -277,18 +281,22 @@ const Organigramme = () => {
     const chartRef = useRef(null);
 
 
+    const handlePivote = () => {
+        if (printed) { setPrinted(false) }
+        else { setPrinted(true) }
+    };
 
 
-    const handlePrint = async() => {
+    const handlePrint = async () => {
         setPrinted(false)
         const chart = chartRef.current;
         const chartHeight = chart.scrollHeight; // Utilisez scrollHeight pour obtenir la hauteur totale, y compris la partie non visible
         const a4Height = 841.89; // Hauteur d'une page A4 en points
         const numPages = Math.ceil(chartHeight / a4Height);
         const pdf = new jsPDF(); // A4 size page of PDF
-    
-        const addPageToPDF = async(i) => {
-           await domtoimage.toBlob(chart, { 
+
+        const addPageToPDF = async (i) => {
+            await domtoimage.toBlob(chart, {
                 height: a4Height,
                 style: {
                     transform: `translateY(${-i * a4Height}px)`,
@@ -296,33 +304,33 @@ const Organigramme = () => {
                 }
             }).then(blob => {
                 let imgData = URL.createObjectURL(blob);
-                const imgProps= pdf.getImageProperties(imgData);
+                const imgProps = pdf.getImageProperties(imgData);
                 const pdfWidth = pdf.internal.pageSize.getWidth();
                 const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-    
+
                 if (i !== 0) {
                     pdf.addPage();
                 }
                 pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight, undefined, 'NONE', 0, 0);
-                if (i === numPages - 1) {
+                if (i === numPages) {
+                    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight, undefined, 'NONE', 0, 0);
                     pdf.save("download.pdf");
                 } else {
+                    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight, undefined, 'NONE', 0, 0);
                     addPageToPDF(i + 1);
                 }
             });
         }
-    
+
         await addPageToPDF(0);
         window.location.reload()
     }
 
 
+    const handlePrintClick = () => {
+        setPrinted(false)
 
-
-
-
-
-
+    }
 
 
 
@@ -337,17 +345,24 @@ const Organigramme = () => {
 
             </div>
             {!isLoading ?
+                <>
+                    {/* <button onClick={handlePrint} className='btn btn-primary'>Imprimer</button> */}
+                    <img onClick={handlePivote} src={pivote} width='40px' height='40px' />
+                    {printed &&<p class="small text-danger">Cliquez sur la flèche pour activer l'impression</p>}
 
-                <div  className={`${printed ? 'organigramme-container' : 'organigramme-containerr'}`}>
-                    {/* <ReactToPrint
-                        trigger={() => <button onClick={handlePrintClick}>Print this out!</button>}
-                        // content={() => chartRef.current}
-                    /> */}
-                    <button onClick={handlePrint} className='btn btn-primary'>Imprimer</button>
-                    <div className={`${printed ? 'chart-wrapper' : 'chart-wrapperr'}`} ref={chartRef} >
-                        <OrganizationChart value={datta} nodeTemplate={nodeTemplate} className={`${printed ? 'chart-container' : 'chart-containerr'}`}/>
+
+                    <ReactToPrint
+                        trigger={() => <button className='btn btn-primary m-3' disabled={printed}>Imprimer</button>}
+                        content={() => chartRef.current}
+                    />
+                    <div className={`${printed ? 'organigramme-container' : 'organigramme-containerr'}`} ref={chartRef} id="content">
+
+
+                        <div className={`${printed ? 'chart-wrapper' : 'chart-wrapperr'}`} >
+                            <OrganizationChart value={datta} nodeTemplate={nodeTemplate} className={`${printed ? 'chart-container' : 'chart-containerr'}`} />
+                        </div>
                     </div>
-                </div>
+                </>
                 :
                 <>
                     <p>L'organigramme se charge ...</p>
@@ -356,6 +371,10 @@ const Organigramme = () => {
                     </Box>
                 </>
             }
+
+
+
+
         </>
     );
 };
