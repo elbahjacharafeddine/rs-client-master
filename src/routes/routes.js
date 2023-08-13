@@ -48,6 +48,7 @@ import EstablishmentBudget from "../views/ManagingEntities/EstablishmentBudget";
 import AddBudget from "../views/components/AddBudget";
 import Report from "../views/Statistics/Report";
 import LabReports from "../views/Statistics/LabReports";
+import Organigramme from "../views/Organigramme";
 
 
 
@@ -114,10 +115,17 @@ const entitiesPathsCategory = {
       roles: ["LABORATORY_HEAD"],
       inMenu: true,
     },
+    // {
+    //   title: "Organigramme",
+    //   path: "/labTree",
+    //   component: LabTree,
+    //   inMenu: true,
+    //   roles: ["LABORATORY_HEAD"],
+    // },
     {
       title: "Organigramme",
       path: "/labTree",
-      component: LabTree,
+      component: Organigramme,
       inMenu: true,
       roles: ["LABORATORY_HEAD"],
     },

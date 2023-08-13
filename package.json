@@ -5,11 +5,13 @@
   "dependencies": {
     "@balkangraph/orgchart.js": "^7.1.95",
     "@emotion/core": "^10.1.1",
+    "@emotion/styled": "^11.11.0",
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.57",
     "@mdi/js": "^5.9.55",
     "@mdi/react": "^1.5.0",
+    "@mui/material": "^5.14.4",
     "@react-md/tree": "^2.7.1",
     "@react-pdf/renderer": "^2.0.0-beta.6",
     "@testing-library/jest-dom": "^4.2.4",
@@ -21,12 +23,16 @@
     "btoa": "^1.2.1",
     "chart.js": "^2.9.4",
     "datatables": "^1.10.18",
+    "dom-to-image": "^2.6.0",
     "highcharts": "^8.1.2",
     "highcharts-react-official": "^3.0.0",
+    "html2canvas": "^1.4.1",
     "jquery": "^3.5.1",
+    "jspdf": "^2.5.1",
     "material-ui-icons": "^1.0.0-beta.36",
-    "node-sass": "^4.14.1",
     "popper.js": "^1.16.1",
+    "primeicons": "^6.0.1",
+    "primereact": "^9.6.1",
     "react": "^16.12.0",
     "react-bootstrap": "^1.5.2",
     "react-c3js": "^0.1.20",
@@ -51,7 +57,7 @@
     "uint8-to-base64": "^0.2.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts --openssl-legacy-provider start",
     "build": "react-scripts build"
   },
   "eslintConfig": {

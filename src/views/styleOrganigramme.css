@@ -1,0 +1,47 @@
+.chart-container .p-person {
+    width: 100px;
+    font-size: 10px;
+  }
+  
+  .chart-container .p-person .person-avatar {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .chart-container .p-person .person-name {
+    font-size: 30px;
+  }
+  
+  .chart-container .p-person .person-title {
+    font-size: 8px;
+  } 
+  
+  .organigramme-container {
+    overflow-x:auto;
+  }
+  
+  .chart-wrapper {
+    display: inline-block;
+  }
+  
+  
+  
+  
+  
+  .chart-containerr .pp-person {
+    width: 100px;
+    /* height: 120px; */
+    font-size: 10px;
+    transform: rotate(-90deg);
+    /* white-space: nowrap; */
+  }
+  
+  .organigramme-containerr{
+    overflow-x: auto;
+  }
+  
+  .chart-wrapperr {
+    /* display: inline-block; */
+    transform: rotate(90deg);
+    margin-top:300px;
+  }
