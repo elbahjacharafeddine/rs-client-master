@@ -174,7 +174,7 @@ const Organigramme = () => {
     const updateNodes = useCallback(async () => {
         let orgChartNodes;
         orgChartNodes = await laboratoryService.getNodesForOrgChart();
-        console.log(orgChartNodes.data[0]);
+        // console.log(orgChartNodes.data[0]);
         setDataChefLab(orgChartNodes.data[0])
         const phrase = orgChartNodes.data[0].title;
         const nouvellePhrase = phrase.replace(/chef de /i, "");
