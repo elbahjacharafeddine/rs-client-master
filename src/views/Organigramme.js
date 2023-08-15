@@ -303,12 +303,12 @@ const Organigramme = () => {
             {!isLoading ?
                 <>
                     {/* <button onClick={handlePrint} className='btn btn-primary'>Imprimer</button> */}
-                    <img onClick={handlePivote} src={pivote} width='40px' height='40px' />
-                    {printed && <p class="small text-danger">Cliquez sur la flèche pour activer l'impression</p>}
+                    {/* <img onClick={handlePivote} src={pivote} width='40px' height='40px' />
+                    {printed && <p class="small text-danger">Cliquez sur la flèche pour activer l'impression</p>} */}
 
 
                     <ReactToPrint
-                        trigger={() => <button className='btn btn-primary m-3' disabled={printed}>Imprimer</button>}
+                        trigger={() => <button className='btn btn-primary m-3' >Imprimer</button>}
                         content={() => chartRef.current}
                     />
                     <div className={`${printed ? 'organigramme-container' : 'organigramme-containerr'}`} ref={chartRef} id="content">
