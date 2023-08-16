@@ -24,7 +24,7 @@ const Publication = ({
   const [isFetched, setIsFetched] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const getJournalData = async () => {
+  const getJournalDataa = async () => {
     if (publication.searchedFor) return;
 
 
@@ -291,15 +291,15 @@ const Publication = ({
   };
 
   useEffect(() => {
-    let isMounted = true;
-    if (!publication.IF && !publication.SJR && !publication.searchedFor)
-      setTimeout(() => {
-        if (isMounted) getJournalData();
-      }, index * 2000 + 2000);
+    // let isMounted = true;
+    // if (!publication.IF && !publication.SJR && !publication.searchedFor)
+    //   setTimeout(() => {
+    //     if (isMounted) getJournalDataa();
+    //   }, index * 2000 + 2000);
 
-    return () => {
-      isMounted = false;
-    };
+    // return () => {
+    //   isMounted = false;
+    // };
   }, []);
   const [modalShow, setModalShow] = useState(false);
   const showModal = (props) => {
@@ -428,6 +428,57 @@ const Publication = ({
         }
       });
   };
+
+
+  const getJournalData = async () => {
+    setIsLoading(true)
+
+    // const ws = new WebSocket('ws://localhost:2000');
+     const ws = new WebSocket('wss://rs-scraper-elbahja.onrender.com/'); // Remplacez l'URL en conséquence
+
+    const journalName = publication.source
+      ? publication.source
+      : publication.extraInformation && publication.extraInformation["Journal"]
+        ? publication.extraInformation["Journal"]
+        : null;
+
+    const journalNameQuery = journalName.replace("/", "").replace("\\", "");
+    const year = publication.year
+
+    try {
+      ws.onopen = () => {
+        console.log('WebSocket connection opened in publication react js');
+        const paramts = {
+          journalName: journalNameQuery,
+          year:year
+        };
+        ws.send(JSON.stringify(paramts));
+      }
+    }
+    catch (error) {
+      console.log("error Publication Year" + error);
+    }
+
+    ws.onmessage = (event) => {
+      try {
+        const receivedData = JSON.parse(event.data);
+      console.log(receivedData.SJR);
+      setIsFetched(true);
+        updatePublication(index, {
+          ...publication,
+          // IF: receivedData.SJR,
+          SJR: receivedData.SJR,
+          searchedFor: true,
+        });
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+        setIsLoading(false)
+        setIsFetched(false)
+      }
+      
+    }
+  }
 
 
   const fetchedButton = (

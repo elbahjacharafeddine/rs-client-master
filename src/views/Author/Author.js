@@ -7,19 +7,27 @@ import React, {
   Fragment,
 } from "react";
 
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, json } from "react-router-dom";
 
 import AuthorHeader from "./components/AuthorHeader";
 import Coauthors from "./components/Coauthors";
 import AuthorCitations from "./components/AuthorCitations";
-import PublicationsAuth from "./components/PublicationsAuth";
+import Publications from "./components/Publications";
 
 import { AppContext } from "../../context/AppContext";
 import NoResultFound from "../components/NoResultFound";
 import LoadingResult from "../components/LoadingResult";
 import ErrorFound from "../components/ErrorFound";
 
+
+import Skeleton from '@mui/material/Skeleton';
+import Stack from '@mui/material/Stack';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
+
+
 const Author = (props) => {
+  const [messages, setMessages] = useState([]);
   const { platform, authorId } = useParams();
   const [author, setAuthor] = useState(null);
   const [isError, setIsError] = useState(false);
@@ -33,6 +41,15 @@ const Author = (props) => {
   const { pushAlert } = alertService;
   const { scraperService, userService, teamService } = ApiServices;
 
+  const [serverError, setServerError] = useState(false)
+  const [chargement, setChargement] = useState(true)
+  const [step, setStep] = useState('Authentification sécurisée')
+  const [message, setMessage] = useState('')
+  const [color, setColor]= useState('black')
+  const [back, setBack] = useState('white')
+  const [plateform,setPlateform] =useState('')
+  const [fin, setIsfin] = useState(false)
+
   const getAuthorData = useCallback(async () => {
     try {
       setAuthor();
@@ -43,10 +60,11 @@ const Author = (props) => {
       if (response.data.author) {
         setAuthor(response.data.author);
         if (user) checkFollowAuthorization(response.data.author);
-      } 
+      }
       else if (response.data.error) setNoResultFound(true);
       else {
-        pushAlert({ message: "Incapable d'obtenir les données de l'auteur" });
+        // pushAlert({ message: "Incapable d'obtenir les données de l'auteur" });
+        console.log("Incapable d'obtenir les données de l'auteur");
       }
     } catch (error) {
       setIsError(true);
@@ -106,7 +124,7 @@ const Author = (props) => {
     console.log("possibleNames");
     console.log(possibleNames);
     console.log("trimName(author.name)");
-    console.log(author.name);
+    // console.log(author.name);
     if (
       possibleNames.includes(trimName(author.name)) ||
       ["LABORATORY_HEAD", "TEAM_HEAD"].some((r) => user.roles.includes(r))
@@ -116,8 +134,62 @@ const Author = (props) => {
     }
   }, []);
 
+  // const ws = new WebSocket('ws://localhost:2000');
+   const ws = new WebSocket('wss://rs-scraper-elbahja.onrender.com/'); // Remplacez l'URL en conséquence
+
+  const getAuthorDataa = useCallback(async () => {
+    try {
+      ws.onopen = () => {
+        console.log('WebSocket connection opened');
+        const auth = {
+          authorId:authorId
+        }
+        ws.send(JSON.stringify(auth))
+      };
+
+      ws.onmessage = (event) => {
+        const receivedData = JSON.parse(event.data);
+        setMessages((prevMessages) => [...prevMessages, receivedData]);
+        console.log(receivedData);
+        
+        if (receivedData.author) {
+          setAuthor(receivedData.author);
+          setChargement(false)
+          setServerError(false)
+          if (user) checkFollowAuthorization(receivedData.author);
+        }
+        else if (receivedData.state) {
+          console.log(receivedData.state);
+          setServerError(true)
+          setChargement(false)
+        }
+        else if(receivedData.res){
+          // setMessage(receivedData.res.message)
+          setStep(receivedData.res.step)
+          setPlateform(receivedData.res.plateforme)
+          setColor(receivedData.res.color)
+          setBack(receivedData.res.background)
+        }
+        else if(receivedData.fin){
+          console.log("fin de chargement des publications");
+          setIsfin(true)
+        }
+        else {
+          // pushAlert({ message: "Incapable d'obtenir les données de l'auteur" });
+          setNoResultFound(true);
+        }
+      }
+    } catch (error) {
+      setIsError(true);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [authorId]);
+
+
+
   useEffect(() => {
-    getAuthorData();
+    getAuthorDataa();
     if (!user) return;
     if (
       ["LABORATORY_HEAD", "TEAM_HEAD", "RESEARCHER"].some((r) =>
@@ -131,37 +203,66 @@ const Author = (props) => {
 
 
   return (
-    <div className="row">
-      {isLoading && <LoadingResult />}
-      {noResultFound && <NoResultFound query={authorId} />}
-      {isError && <ErrorFound />}
-      {author && (
-        <Fragment>
-          <div className="col-lg-8">
-            <AuthorHeader
-              platform={platform}
-              users={users}
-              user={user}
-              author={author}
-              toggleFollow={toggleFollow}
-              isFollowed={isFollowed}
-              isSendingFollow={isSendingFollow}
-              isAllowedToFollow={isAllowedToFollow}
-            />
-            <PublicationsAuth
-              platform={platform}
-              author={author}
-              setAuthor={setAuthor}
-            />
-          </div>
-          <div className="col-lg-4">
-            <AuthorCitations author={author} />
-            <Coauthors author={author} />
-          </div>
-        </Fragment>
-      )}
-    </div>
+    <>
+      <div className="row">
+
+        {/* {noResultFound && <NoResultFound query={authorId} />} */}
+        {serverError && <ErrorFound />}
+
+
+        {author &&
+          <Fragment>
+            <div className="col-lg-8">
+              <AuthorHeader
+                platform={platform}
+                users={users}
+                user={user}
+                author={author}
+                toggleFollow={toggleFollow}
+                isFollowed={isFollowed}
+                isSendingFollow={isSendingFollow}
+                isAllowedToFollow={isAllowedToFollow}
+              />
+
+
+              <Publications
+                platform={platform}
+                author={author}
+                setAuthor={setAuthor}
+                isFin={fin}
+              />
+            </div>
+            <div className="col-lg-4">
+              <AuthorCitations author={author} />
+              <Coauthors author={author} />
+            </div>
+          </Fragment>
+        }
+        {chargement &&
+
+          <>
+            {/* 
+            <Stack spacing={1}>
+              <Skeleton variant="circular" width={100} height={100} /> */}
+            {/* <Skeleton variant="text" sx={{ fontSize: '1rem' }} /> */}
+            {/* <Skeleton variant="rectangular" width={710} height={300} />
+
+            </Stack> */}
+            {/* <Box sx={{ display: 'flex' }} >
+              <CircularProgress />
+            </Box> */}
+
+            <LoadingResult step={step} plateform={plateform} message={message} back={back} color={color} />
+          </>
+        }
+
+      </div>
+
+
+
+    </>
   );
+
 };
 
 export default Author;

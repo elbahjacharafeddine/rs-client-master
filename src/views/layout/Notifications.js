@@ -134,14 +134,14 @@ const Notifications = () => {
   }, [checkFollowedResearcher, followedUsers]);
 
   useEffect(() => {
-    findUserNotifications();
-    getFollowedResearchers();
+    // findUserNotifications();
+    // getFollowedResearchers();
   }, []);
 
-  useEffect(() => {
-    if (!followedUsers || followedUsers.length === 0) return;
-    checkAllFollowedResearcher();
-  }, [followedUsers]);
+  // useEffect(() => {
+  //   if (!followedUsers || followedUsers.length === 0) return;
+  //   checkAllFollowedResearcher();
+  // }, [followedUsers]);
 
   const markAsRead = useCallback(
     (notification) => async () => {

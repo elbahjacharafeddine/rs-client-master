@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { AppContext } from "../../../context/AppContext";
 import PublicationAuth from "./PublicationAuth";
+import Publication from "./Publication";
 
 const PublicationsAuth = ({ author, setAuthor, platform, getProfile }) => {
   const { ApiServices, user, setUser, alertService } = useContext(AppContext);
