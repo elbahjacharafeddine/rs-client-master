@@ -434,7 +434,7 @@ const Publication = ({
     setIsLoading(true)
 
     // const ws = new WebSocket('ws://localhost:2000');
-     const ws = new WebSocket('wss://rs-scraper-elbahja.onrender.com/'); // Remplacez l'URL en conséquence
+     const ws = new WebSocket('wss://rs-scraper-master.onrender.com/'); // Remplacez l'URL en conséquence
 
     const journalName = publication.source
       ? publication.source
