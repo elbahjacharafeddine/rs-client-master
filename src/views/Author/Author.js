@@ -241,17 +241,6 @@ const Author = (props) => {
         {chargement &&
 
           <>
-            {/* 
-            <Stack spacing={1}>
-              <Skeleton variant="circular" width={100} height={100} /> */}
-            {/* <Skeleton variant="text" sx={{ fontSize: '1rem' }} /> */}
-            {/* <Skeleton variant="rectangular" width={710} height={300} />
-
-            </Stack> */}
-            {/* <Box sx={{ display: 'flex' }} >
-              <CircularProgress />
-            </Box> */}
-
             <LoadingResult step={step} plateform={plateform} message={message} back={back} color={color} />
           </>
         }
