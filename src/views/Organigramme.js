@@ -134,6 +134,8 @@ const Organigramme = () => {
         "yellowgreen"
     ];
 
+    
+
     const getRandomIndex = (list) => {
         const randomIndex = Math.floor(Math.random() * list.length);
         return randomIndex;

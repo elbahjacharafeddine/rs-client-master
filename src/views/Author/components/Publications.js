@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import Publication from "./Publication";
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
@@ -6,11 +6,19 @@ import AddFormulaire from "./addformulaire";
 import { AppContext } from "../../../context/AppContext";
 import swal from 'sweetalert';
 
-const Publications = ({ author, setAuthor, platform, getProfile }) => {
+import $ from 'jquery';
+import 'datatables.net';
+import 'datatables.net-dt/css/jquery.dataTables.css';
+
+const Publications = ({ author, setAuthor, platform, getProfile, data, isFin }) => {
   const { ApiServices, user, setUser, alertService } = useContext(AppContext);
   const { pushAlert } = alertService;
   const { userService } = ApiServices;
+  const tableRef = useRef(null);
+
   useEffect(() => {
+    // const table = $(tableRef.current).DataTable();
+// console.log("la valeur de is fin dans publiations is "+ isFin);
     setTimeout(() => {
       const publicationsTmp = author.publications.map((p) => ({
         ...p,
@@ -21,7 +29,9 @@ const Publications = ({ author, setAuthor, platform, getProfile }) => {
         publications: publicationsTmp,
       }));
     }, author.publications.length * 4000);
-  }, []);
+
+    
+  }, [isFin]);
 
   const updatePublication = (index, publication) => {
     const i = author.publications.map(p => p.title).indexOf(publication.title);
@@ -117,7 +127,7 @@ const Publications = ({ author, setAuthor, platform, getProfile }) => {
   return (
     <div className="card">
       <div className="table-responsive">
-        <table className="table card-table table-vcenter text-nowrap ">
+        <table className="table card-table table-vcenter text-nowrap " ref={tableRef}>
           <thead>
             <tr>
               <th>Titre<IconButton onClick={() => showModal()} aria-label="delete">
@@ -136,7 +146,7 @@ const Publications = ({ author, setAuthor, platform, getProfile }) => {
           </thead>
           <tbody>
             {author.publications &&
-              author.publications
+              data
                 .sort((a, b) => b.title - a.title)
                 .map((publication, index) => (
                   <Publication
@@ -147,6 +157,7 @@ const Publications = ({ author, setAuthor, platform, getProfile }) => {
                     publication={publication}
                     updatePublication={updatePublication}
                     author={author}
+                    isFin={isFin}
                   />
                 ))}
           </tbody>

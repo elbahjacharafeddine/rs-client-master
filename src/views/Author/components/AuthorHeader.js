@@ -15,6 +15,7 @@ const AuthorHeader = ({
   author,
   user,
   users,
+  showButton
 }) => {
   return (
     <div className="card">
@@ -29,10 +30,11 @@ const AuthorHeader = ({
                 {author.name}
                 {isAllowedToFollow && 
                   <FollowingButton
-                    disabled={
-                      author.publications.filter((p) => p.searchedFor)
-                        .length !== author.publications.length
-                    }
+                    // disabled={
+                    //   author.publications.filter((p) => p.searchedFor)
+                    //     .length !== author.publications.length
+                    // }
+                    disabled={!showButton}
                     isFollowed={isFollowed}
                     isSendingFollow={isSendingFollow}
                   />}

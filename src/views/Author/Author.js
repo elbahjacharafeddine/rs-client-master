@@ -24,6 +24,7 @@ import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import DataTableComponent from "../DataTableComponent";
 
 
 const Author = (props) => {
@@ -45,10 +46,22 @@ const Author = (props) => {
   const [chargement, setChargement] = useState(true)
   const [step, setStep] = useState('Authentification sécurisée')
   const [message, setMessage] = useState('')
-  const [color, setColor]= useState('black')
+  const [color, setColor] = useState('black')
   const [back, setBack] = useState('white')
-  const [plateform,setPlateform] =useState('')
+  const [plateform, setPlateform] = useState('')
   const [fin, setIsfin] = useState(false)
+
+  const [ListPublications, setListPublications] = useState([]);
+
+
+  const handleReceivedData = () => {
+    console.log(ListPublications);
+    console.log("*************");
+    console.log(author.publications);
+  };
+
+
+
 
   const getAuthorData = useCallback(async () => {
     try {
@@ -135,42 +148,43 @@ const Author = (props) => {
   }, []);
 
   // const ws = new WebSocket('ws://localhost:2000');
-   const ws = new WebSocket('wss://rs-scraper-master.onrender.com/'); // Remplacez l'URL en conséquence
+  const ws = new WebSocket('wss://rs-scraper-master.onrender.com/'); // Remplacez l'URL en conséquence
 
   const getAuthorDataa = useCallback(async () => {
     try {
       ws.onopen = () => {
         console.log('WebSocket connection opened');
         const auth = {
-          authorId:authorId
+          authorId: authorId
         }
         ws.send(JSON.stringify(auth))
       };
 
       ws.onmessage = (event) => {
         const receivedData = JSON.parse(event.data);
-        setMessages((prevMessages) => [...prevMessages, receivedData]);
+        // setMessages((prevMessages) => [...prevMessages, receivedData]);
         console.log(receivedData);
-        
+
         if (receivedData.author) {
           setAuthor(receivedData.author);
           setChargement(false)
           setServerError(false)
           if (user) checkFollowAuthorization(receivedData.author);
+          setListPublications(receivedData.author.publications)
         }
         else if (receivedData.state) {
           console.log(receivedData.state);
           setServerError(true)
           setChargement(false)
         }
-        else if(receivedData.res){
+        else if (receivedData.res) {
           // setMessage(receivedData.res.message)
           setStep(receivedData.res.step)
           setPlateform(receivedData.res.plateforme)
           setColor(receivedData.res.color)
           setBack(receivedData.res.background)
         }
-        else if(receivedData.fin){
+        else if (receivedData.fin) {
           console.log("fin de chargement des publications");
           setIsfin(true)
         }
@@ -222,6 +236,7 @@ const Author = (props) => {
                 isFollowed={isFollowed}
                 isSendingFollow={isSendingFollow}
                 isAllowedToFollow={isAllowedToFollow}
+                showButton={fin}
               />
 
 
@@ -230,6 +245,7 @@ const Author = (props) => {
                 author={author}
                 setAuthor={setAuthor}
                 isFin={fin}
+                data={ListPublications}
               />
             </div>
             <div className="col-lg-4">
@@ -246,8 +262,12 @@ const Author = (props) => {
         }
 
       </div>
-
-
+{/* {Listmessages &&
+      <DataTableComponent
+        data={Listmessages}
+      />
+} */}
+      {/* <button onClick={handleReceivedData}>show data</button> */}
 
     </>
   );
