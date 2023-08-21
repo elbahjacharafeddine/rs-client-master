@@ -15,25 +15,29 @@ const Publication = ({
   index,
   getProfile,
   platform,
-  isFin
+  isFin,
+  start,
+  num_to_start,
+  onNumeroChange
 }) => {
-  const { ApiServices,user, alertService } = useContext(AppContext);
+  const { ApiServices, user, alertService } = useContext(AppContext);
   const { pushAlert } = alertService;
-  const { scraperService,userService } = ApiServices;
+  const { scraperService, userService } = ApiServices;
 
   const [noResultFound, setNoResultFound] = useState(false);
   const [isFetched, setIsFetched] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [canStart, setStart] = useState(isFin)
+
+  const [newNumero, setNewNumero] = useState(num_to_start);
 
   const getJournalDataa = async () => {
-    if (publication.searchedFor) return;    
+    if (publication.searchedFor) return;
 
     const journalName = publication.source
       ? publication.source
       : publication.extraInformation && publication.extraInformation["Journal"]
-      ? publication.extraInformation["Journal"]
-      : null;
+        ? publication.extraInformation["Journal"]
+        : null;
 
     if (!journalName || !publication.year || publication.year.trim() === "") {
       console.log("No data");
@@ -54,8 +58,8 @@ const Publication = ({
         journalNameQuery,
         publication.year
       );
-      
-      
+
+
       if (response.data.error || response.data.status === 404) {
         setNoResultFound(true);
         updatePublication(index, {
@@ -70,18 +74,18 @@ const Publication = ({
           SJR: response.data.journal["SJR"],
           searchedFor: true,
         });
-        
-        const userP=user._id;
-       const responseDB=userService.addSJR({
-          id:userP,
-          title:publication.title,
+
+        const userP = user._id;
+        const responseDB = userService.addSJR({
+          id: userP,
+          title: publication.title,
           IF: response.data.journal["IF"],
           SJR: response.data.journal["SJR"],
         })
       };
-     
-      
-    }catch (e) {
+
+
+    } catch (e) {
       updatePublication(index, {
         ...publication,
         searchedFor: true,
@@ -96,23 +100,28 @@ const Publication = ({
     setIsLoading(false);
   };
 
+  useEffect(() =>{
+
+  },[start])
 
 
 
   useEffect(() => {
-    let isMounted = true;
+    // let isMounted = true;
     // console.log("la valeur de isFin dans publication is " + canStart);
-    if(isFin){
-      if (!publication.IF && !publication.SJR && !publication.searchedFor)
-        setTimeout(() => {
-          if (isMounted) getJournalData();
-        }, index * 2000 + 2000);
+    if (isFin) {
+      if (start) {
+        if (!publication.IF && !publication.SJR && !publication.searchedFor)
+          // setTimeout(() => {
+            // if (isMounted) 
+            getJournalData();
+          // }, index * 1000);
+      }
     }
-    
-    return () => {
-      isMounted = false;
-    };
-  }, [isFin]);
+    // return () => {
+    //   isMounted = false;
+    // };
+  }, [isFin,start]);
   const [modalShow, setModalShow] = useState(false);
   const showModal = (props) => {
     setModalShow(true);
@@ -121,7 +130,7 @@ const Publication = ({
     setModalShow(false);
   }
   const [pub, setPub] = useState({
-    _id:publication._id,
+    _id: publication._id,
     auteur: publication.authors.join("; "),
     titre: publication.title,
     annee: publication.year,
@@ -142,8 +151,8 @@ const Publication = ({
     });
   };
 
-  const deletePub = async (e) =>{
-    var idPub=e.currentTarget.id;
+  const deletePub = async (e) => {
+    var idPub = e.currentTarget.id;
     console.log(user._id);
     console.log(idPub)
     swal({
@@ -153,39 +162,39 @@ const Publication = ({
       buttons: true,
       dangerMode: true,
     })
-    .then(async (willAdd) => {
-      if (willAdd) {
-        const userP=user._id;
-        
-        try {
-          const response =  userService.deletePub({
-            idAuthor:user._id,
-            idPub:idPub, 
-            
-          });
-          getProfile();
-          swal("La publication est supprimée", {
-            icon: "success",
-          });
-    
-          if (response.data) {
-            pushAlert({
-              type: "success",
-              message: "Le mot de passe a été mis à jour",
+      .then(async (willAdd) => {
+        if (willAdd) {
+          const userP = user._id;
+
+          try {
+            const response = userService.deletePub({
+              idAuthor: user._id,
+              idPub: idPub,
+
             });
-           
-          } else throw Error();
-        } catch (e) {
-          pushAlert({
-            message: "Incapable de mettre à jour la photo de profil",
-          });
+            getProfile();
+            swal("La publication est supprimée", {
+              icon: "success",
+            });
+
+            if (response.data) {
+              pushAlert({
+                type: "success",
+                message: "Le mot de passe a été mis à jour",
+              });
+
+            } else throw Error();
+          } catch (e) {
+            pushAlert({
+              message: "Incapable de mettre à jour la photo de profil",
+            });
+          }
+
+        } else {
+          swal("l'operation est annulée");
         }
-       
-      } else {
-        swal("l'operation est annulée");
-      }
-    });
-    
+      });
+
   }
 
   const updatePub = () => {
@@ -215,7 +224,7 @@ const Publication = ({
 
 
             });
-            console.log(userP+publication._id+pub.titre)
+            console.log(userP + publication._id + pub.titre)
             getProfile();
             swal("La publication est modifiée", {
               icon: "success",
@@ -244,11 +253,10 @@ const Publication = ({
 
   const getJournalData = async () => {
 
-    setStart(false)
     setIsLoading(true)
 
-    // const ws = new WebSocket('ws://localhost:2000');
-     const ws = new WebSocket('wss://rs-scraper-master.onrender.com/'); // Remplacez l'URL en conséquence
+    const ws = new WebSocket('ws://localhost:2000');
+    //  const ws = new WebSocket('wss://rs-scraper-master.onrender.com/'); // Remplacez l'URL en conséquence
 
     const journalName = publication.source
       ? publication.source
@@ -264,11 +272,11 @@ const Publication = ({
         console.log('WebSocket connection opened in publication react js');
         const paramts = {
           journalName: journalNameQuery,
-          year:year
+          year: year
         };
-        
+
         // setTimeout(() => {
-          ws.send(JSON.stringify(paramts));
+        ws.send(JSON.stringify(paramts));
         // }, 10000); // 10000 ms = 10 secondes
       }
     }
@@ -279,8 +287,8 @@ const Publication = ({
     ws.onmessage = (event) => {
       try {
         const receivedData = JSON.parse(event.data);
-      console.log(receivedData.SJR);
-      setIsFetched(true);
+        console.log(receivedData.SJR);
+        setIsFetched(true);
         updatePublication(index, {
           ...publication,
           // IF: receivedData.SJR,
@@ -293,7 +301,10 @@ const Publication = ({
         setIsLoading(false)
         setIsFetched(false)
       }
-      setStart(true)
+      let n = newNumero+1
+      setNewNumero(n)
+      onNumeroChange(n)
+      // console.log(" la nouvelle valeur de numero = " +n);
     }
   }
 
@@ -308,83 +319,83 @@ const Publication = ({
   );
   return (
     <>
-    <tr style={{ whiteSpace: "break-spaces " }} key={publication.title}>
-      <td style={{ width: "60%" }}>
-        {publication.title}
-        {publication.authors && (
-          <small
-            style={{ whiteSpace: "break-spaces " }}
-            className="d-block text-muted text-truncate mt-n1"
-          >
-            {publication.authors.join(", ")}
-          </small>
-        )}
-
-        {publication.source && (
-          <small
-            style={{ whiteSpace: "break-spaces " }}
-            className="d-block text-muted text-truncate mt-n1"
-          >
-            {publication.source}
-          </small>
-        )}
-
-        {publication.extraInformation &&
-          publication.extraInformation["Conference"] && (
+      <tr style={{ whiteSpace: "break-spaces " }} key={publication.title}>
+        <td style={{ width: "60%" }}>
+          {publication.title} 
+          {publication.authors && (
             <small
               style={{ whiteSpace: "break-spaces " }}
               className="d-block text-muted text-truncate mt-n1"
             >
-              {publication.extraInformation["Conference"]}
+              {publication.authors.join(", ")}
             </small>
           )}
 
-        {publication.extraInformation &&
-          publication.extraInformation["Journal"] && (
+          {publication.source && (
             <small
               style={{ whiteSpace: "break-spaces " }}
               className="d-block text-muted text-truncate mt-n1"
             >
-              {publication.extraInformation["Journal"]}
+              {publication.source}
             </small>
           )}
-      </td>
-      <td className="text-center">{publication.year ?? ""}</td>
-      <td className="text-center">
-        {publication.citation ? publication.citation.replace("*", "") : ""}
-      </td>
-      <td className="text-center">
-        {publication.IF ?? " "}
-        {isLoading && <Loader size="25" />}
-      </td>
-      <td className="text-center">
-        {publication.SJR ?? " "}
-        {isLoading && <Loader size="25" />}
-      </td>
-      <td className="text-center">
-        {noResultFound && " "}
-        {!isLoading && fetchedButton}
-      </td>
-      <td>
+
+          {publication.extraInformation &&
+            publication.extraInformation["Conference"] && (
+              <small
+                style={{ whiteSpace: "break-spaces " }}
+                className="d-block text-muted text-truncate mt-n1"
+              >
+                {publication.extraInformation["Conference"]}
+              </small>
+            )}
+
+          {publication.extraInformation &&
+            publication.extraInformation["Journal"] && (
+              <small
+                style={{ whiteSpace: "break-spaces " }}
+                className="d-block text-muted text-truncate mt-n1"
+              >
+                {publication.extraInformation["Journal"]}
+              </small>
+            )}
+        </td>
+        <td className="text-center">{publication.year ?? ""}</td>
+        <td className="text-center">
+          {publication.citation ? publication.citation.replace("*", "") : ""}
+        </td>
+        <td className="text-center">
+          {publication.IF ?? " "}
+          {isLoading && <Loader size="25" />}
+        </td>
+        <td className="text-center">
+          {publication.SJR ?? " "}
+          {isLoading && <Loader size="25" />}
+        </td>
+        <td className="text-center">
+          {noResultFound && " "}
+          {!isLoading && fetchedButton}
+        </td>
+        <td>
           <IconButton id={publication._id}
             size="small" color="primary" component="span"
             onClick={showModal}>
             <UpdateIcon />
           </IconButton>
-      </td>
-      <td>
+        </td>
+        <td>
 
-      <IconButton id={publication._id}
-     size="small" color="secondary" component="span"
-      onClick= {deletePub}>
-        <DeleteIcon />
-        </IconButton>
-      </td>
-    </tr>
-     <UpdateFormulaire show={modalShow} hideModal={hideModal} pub={pub}
-     setPub={setPub}  clearInputs={clearInputs} updatePub={updatePub}
-   />
-   </>
+          <IconButton id={publication._id}
+            size="small" color="secondary" component="span"
+            onClick={deletePub}>
+            <DeleteIcon />
+          </IconButton>
+        </td>
+      </tr>
+      <UpdateFormulaire show={modalShow} hideModal={hideModal} pub={pub}
+        setPub={setPub} clearInputs={clearInputs} updatePub={updatePub}
+      />
+    </>
   );
 };
 

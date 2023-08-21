@@ -6,19 +6,32 @@ import AddFormulaire from "./addformulaire";
 import { AppContext } from "../../../context/AppContext";
 import swal from 'sweetalert';
 
-import $ from 'jquery';
-import 'datatables.net';
-import 'datatables.net-dt/css/jquery.dataTables.css';
+import $ from "jquery";
+import "datatables";
 
 const Publications = ({ author, setAuthor, platform, getProfile, data, isFin }) => {
   const { ApiServices, user, setUser, alertService } = useContext(AppContext);
   const { pushAlert } = alertService;
   const { userService } = ApiServices;
   const tableRef = useRef(null);
+  const [numToStar, setNumToStart] = useState(0)
+
+  const handleNumeroChange = (newNumero) => {
+    setNumToStart(newNumero);
+    let num = numToStar +1
+    console.log(num);
+    setNumToStart(num)
+    console.log(numToStar+" la valeur modifie");
+    console.log("elbahja a fait la mise a jour de la variable");
+  };
+  useEffect(() =>{
+
+  },[numToStar])
 
   useEffect(() => {
     // const table = $(tableRef.current).DataTable();
 // console.log("la valeur de is fin dans publiations is "+ isFin);
+console.log(data.length +" = la longueur de liste de publications");
     setTimeout(() => {
       const publicationsTmp = author.publications.map((p) => ({
         ...p,
@@ -124,10 +137,12 @@ const Publications = ({ author, setAuthor, platform, getProfile, data, isFin }) 
       });
   };
 
+  
+
   return (
     <div className="card">
       <div className="table-responsive">
-        <table className="table card-table table-vcenter text-nowrap " ref={tableRef}>
+        <table className="table card-table table-vcenter text-nowrap " id="myTable">
           <thead>
             <tr>
               <th>Titre<IconButton onClick={() => showModal()} aria-label="delete">
@@ -158,6 +173,9 @@ const Publications = ({ author, setAuthor, platform, getProfile, data, isFin }) 
                     updatePublication={updatePublication}
                     author={author}
                     isFin={isFin}
+                    start={index === numToStar}
+                    num_to_start={numToStar}
+                    onNumeroChange={handleNumeroChange}
                   />
                 ))}
           </tbody>
@@ -166,6 +184,7 @@ const Publications = ({ author, setAuthor, platform, getProfile, data, isFin }) 
       <AddFormulaire show={modalShow} hideModal={hideModal} pub={pub}
         setPub={setPub} addpublication={addpublication} clearInputs={clearInputs}
       />
+
     </div>
   );
 };
