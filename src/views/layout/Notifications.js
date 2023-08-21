@@ -97,8 +97,8 @@ const Notifications = () => {
         //   followedUser.authorId
         // );
 
-        // const response = await Axios.get('http://localhost:2000/auth/scopus/'+followedUser.authorId)
-        const response = await Axios.get('https://rs-scraper-master.onrender.com/auth/scopus/'+followedUser.authorId)
+        const response = await Axios.get('http://localhost:2000/auth/scopus/'+followedUser.authorId)
+        // const response = await Axios.get('https://rs-scraper-master.onrender.com/auth/scopus/'+followedUser.authorId)
         console.log("");
         console.log(response.data);
 
@@ -164,15 +164,7 @@ const Notifications = () => {
 
   const checkAllFollowedResearcher = useCallback(() => {
     if (followedUsers.length === 0) return;
-    // followedUsers.forEach((followedUser, index) => {
-    //   // setTimeout(async () => {
-        
-    //       // checkFollowedResearcher(followedUser, index);
-          processFollowedUsers()
-        
-        
-    //   // }, 10000 * index);
-    // });
+          processFollowedUsers()        
   }, [checkFollowedResearcher, followedUsers]);
 
   useEffect(() => {
