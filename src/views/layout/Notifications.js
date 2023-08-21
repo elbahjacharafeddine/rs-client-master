@@ -12,7 +12,8 @@ import { NotificationIcon } from "../components/icons";
 import { AppContext } from "../../context/AppContext";
 import { Link } from "react-router-dom";
 import Loader from "../components/Loader";
-import { Toast } from "react-bootstrap";
+import Axios from "axios";
+import { dark } from "@mui/material/styles/createPalette";
 
 const Notifications = () => {
   const { user, ApiServices, alertService } = useContext(AppContext);
@@ -21,6 +22,7 @@ const Notifications = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [followedUsers, setFollowedResearchers] = useState([]);
+  const [start, setStart] = useState(true)
 
   const findUserNotifications = useCallback(async () => {
     try {
@@ -28,7 +30,11 @@ const Notifications = () => {
       const response = await notificationsService.findUserNotifications(
         user._id
       );
-      if (response.data) setNotifications(response.data);
+      if (response.data) {
+        setNotifications(response.data)
+        console.log("response for user notifications is:");
+        console.log(response.data);
+      }
       else throw Error();
     } catch (error) {
       pushAlert({
@@ -39,17 +45,21 @@ const Notifications = () => {
     }
   }, [user._id]);
 
+
+  //fonction pour charger la liste de tous les utilisateurs qu on a suivi
   const getFollowedResearchers = useCallback(async () => {
     try {
       const filter =
-        user.roles.includes("LABORATORY_HEAD") 
+        user.roles.includes("LABORATORY_HEAD")
           ? { laboratory_abbreviation: user.laboratoriesHeaded[0].abbreviation }
           : user.roles.includes("TEAM_HEAD")
-          ? { team_abbreviation: user.teamsHeaded[0].abbreviation }
-          : {};
+            ? { team_abbreviation: user.teamsHeaded[0].abbreviation }
+            : {};
       const response = await userService.getFollowedUsers(filter);
-      if (response.status === 200 && response.data)
+      if (response.status === 200 && response.data) {
+        console.log("response for followed user is:");
         setFollowedResearchers(response.data);
+      }
       else throw Error();
     } catch (error) {
       setIsLoading(false);
@@ -60,8 +70,11 @@ const Notifications = () => {
     }
   }, []);
 
+  //fonction pour faire la comparaison et lancer les notifications 
+
   const checkFollowedResearcher = useCallback(
     async (followedUser, index) => {
+      setStart(false)
       console.log(
         "Checking new publication of :",
         followedUser.firstName,
@@ -69,35 +82,57 @@ const Notifications = () => {
       );
 
       try {
-        const response = await scraperService.getAuthorData(
-          followedUser.platform,
-          followedUser.authorId
-        );
+        // let newPublications =[]
+        // const ws = new WebSocket('ws://localhost:2000');
+        // ws.onopen = () => {
+        //   console.log('WebSocket connection opened for notifications ');
+        //   const auth = {
+        //     authorId:followedUser.authorId
+        //   }
+        //   ws.send(JSON.stringify(auth))
+        // };
 
-        if (!response.data.author) throw new Error();
+        // const response = await scraperService.getAuthorData(
+        //   followedUser.platform,
+        //   followedUser.authorId
+        // );
 
-        const scrapedPublications = response.data.author.publications;
+        // const response = await Axios.get('http://localhost:2000/auth/scopus/'+followedUser.authorId)
+        const response = await Axios.get('https://rs-scraper-elbahja.onrender.com/auth/scopus/'+followedUser.authorId)
+        console.log("");
+        console.log(response.data);
 
-        console.log("scrapedPublications : ", scrapedPublications.length);
+        // ws.onmessage = (event) => {
+        //   const receivedData = JSON.parse(event.data);
+        //   console.log(receivedData);
 
-        const storedPublicationsTitles = followedUser.publications.map(
-          ({ title }) => title
-        );
 
-        console.log(
-          "storedPublicationsTitles : ",
-          storedPublicationsTitles.length
-        );
+          if (!response.data.author) throw new Error();
+          // if (!receivedData.author) throw new Error();
 
-        const newPublications = scrapedPublications.filter(
-          ({ title }) => !storedPublicationsTitles.includes(title)
-        );
+          const scrapedPublications = response.data.author.publications;
+          // const scrapedPublications = receivedData.author.publications
 
-        console.log(
-          "%cNew publications of %s",
-          "color: #8a6d3b;background-color: #fcf8e3;",
-          `${followedUser.firstName} ${followedUser.lastName} : ${newPublications.length}`
-        );
+          console.log("scrapedPublications : ", scrapedPublications.length);
+
+          const storedPublicationsTitles = followedUser.publications.map(
+            ({ title }) => title
+          );
+
+          console.log(
+            "storedPublicationsTitles : ",
+            storedPublicationsTitles.length
+          );
+
+          const newPublications = scrapedPublications.filter(
+            ({ title }) => !storedPublicationsTitles.includes(title)
+          );
+
+          console.log(
+            "%cNew publications of %s",
+            "color: #8a6d3b;background-color: #fcf8e3;",
+            `${followedUser.firstName} ${followedUser.lastName} : ${newPublications.length}`
+          );
 
         const responses = await Promise.all(
           newPublications.map(
@@ -110,11 +145,14 @@ const Notifications = () => {
               })
           )
         );
+
       } catch (error) {
-        pushAlert({
-          message:
-            "Incapable  to check if a followed researcher have new publication",
-        });
+        // pushAlert({
+        //   message:
+        //     // "Incapable  to check if a followed researcher have new publication",
+        //     ""
+        // });
+        console.log(error);
       } finally {
         if (followedUsers.length === index + 1) {
           findUserNotifications();
@@ -126,22 +164,26 @@ const Notifications = () => {
 
   const checkAllFollowedResearcher = useCallback(() => {
     if (followedUsers.length === 0) return;
-    followedUsers.forEach((followedUser, index) => {
-      setTimeout(async () => {
-        checkFollowedResearcher(followedUser, index);
-      }, 10000 * index);
-    });
+    // followedUsers.forEach((followedUser, index) => {
+    //   // setTimeout(async () => {
+        
+    //       // checkFollowedResearcher(followedUser, index);
+          processFollowedUsers()
+        
+        
+    //   // }, 10000 * index);
+    // });
   }, [checkFollowedResearcher, followedUsers]);
 
   useEffect(() => {
-    // findUserNotifications();
-    // getFollowedResearchers();
+    findUserNotifications();
+    getFollowedResearchers();
   }, []);
 
-  // useEffect(() => {
-  //   if (!followedUsers || followedUsers.length === 0) return;
-  //   checkAllFollowedResearcher();
-  // }, [followedUsers]);
+  useEffect(() => {
+    if (!followedUsers || followedUsers.length === 0) return;
+    checkAllFollowedResearcher();
+  }, [followedUsers]);
 
   const markAsRead = useCallback(
     (notification) => async () => {
@@ -167,6 +209,16 @@ const Notifications = () => {
     },
     []
   );
+
+
+
+  async function processFollowedUsers() {
+    console.log(followedUsers.length);
+    for (let index = 0; index < followedUsers.length; index++) {
+      await checkFollowedResearcher(followedUsers[index], index);
+    }
+  }
+
 
   return (
     <Fragment>
@@ -209,7 +261,14 @@ const Notification = ({ notification, markAsRead }) => {
   const { alertService } = useContext(AppContext);
   const { pushAlert } = alertService;
   return (
-    <div className="card">
+    <div
+      className="toast show"
+      roles="alert"
+      aria-live="assertive"
+      aria-atomic="true"
+      data-autohide="false"
+      data-toggle="toast"
+    >
       <Link
         onClick={(e) => {
           e.preventDefault();
@@ -222,7 +281,7 @@ const Notification = ({ notification, markAsRead }) => {
           markAsRead();
         }}
       >
-        <Toast.Header>
+        <div className="toast-header">
           {notification.profilePicture && (
             <span
               className="avatar avatar-sm mr-2"
@@ -232,11 +291,11 @@ const Notification = ({ notification, markAsRead }) => {
             ></span>
           )}
 
-          <strong className="mr-auto " style={{fontSize:"13px"}}>{notification.fullName}</strong>
-        </Toast.Header>
-        <Toast.Body style={{fontSize:"12px"}}>
+          <strong className="mr-auto">{notification.fullName}</strong>
+        </div>
+        <div className="toast-body">
           {`${notification.fullName} a publié une nouvelle publication intitulé : "${notification.publication}"`}
-        </Toast.Body>
+        </div>
       </Link>
     </div>
   );
