@@ -28,7 +28,7 @@ const Profile = () => {
   const { userService,scraperService } = ApiServices;
   useEffect(() => {
     getProfile();
-    updateCitation();
+    // updateCitation();
   }, [id]);
 
   const getProfile = useCallback(async () => {
@@ -291,6 +291,12 @@ const Profile = () => {
       pushAlert({ message: "Incapable d'obtenir les données de profil" });
     }
   }, [id]);
+
+  const showData= () =>{
+    console.log(profileUser.correspondingFollowedUser.publications);
+  }
+
+
     return (
       <div className="container">
         {profileUser !== null && (
@@ -313,6 +319,8 @@ const Profile = () => {
             author={correspondingFollowedUser}
             setAuthor={setCorrespondingFollowedUser}
             getProfile={getProfile}
+            data={profileUser.correspondingFollowedUser.publications}
+            isFin={true}
           />
           )
         }  else {
@@ -321,6 +329,8 @@ const Profile = () => {
             author={correspondingFollowedUser}
             setAuthor={setCorrespondingFollowedUser}
             getProfile={getProfile}
+            data={correspondingFollowedUser.publications}
+            isFin={true}
           />
           )
         }

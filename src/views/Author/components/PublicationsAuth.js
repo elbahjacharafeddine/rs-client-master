@@ -3,10 +3,26 @@ import { AppContext } from "../../../context/AppContext";
 import PublicationAuth from "./PublicationAuth";
 import Publication from "./Publication";
 
-const PublicationsAuth = ({ author, setAuthor, platform, getProfile }) => {
+const PublicationsAuth = ({author, setAuthor, platform, getProfile, data, isFin }) => {
   const { ApiServices, user, setUser, alertService } = useContext(AppContext);
   const { pushAlert } = alertService;
   const { userService } = ApiServices;
+  const [numToStar, setNumToStart] = useState(0)
+
+  const handleNumeroChange = (newNumero) => {
+    setNumToStart(newNumero);
+    let num = numToStar + 1
+    console.log(num);
+    setNumToStart(num)
+    console.log(numToStar + " la valeur modifie");
+    console.log("elbahja a fait la mise a jour de la variable");
+  };
+  
+  useEffect(() => {
+
+  }, [numToStar])
+
+
   useEffect(() => {
     setTimeout(() => {
       const publicationsTmp = author.publications.map((p) => ({
@@ -53,13 +69,17 @@ const PublicationsAuth = ({ author, setAuthor, platform, getProfile }) => {
                 .sort((a, b) => b.title - a.title)
                 .map((publication, index) => (
                   <PublicationAuth
-                    getProfile={getProfile}
-                    index={index}
-                    platform={platform}
-                    key={index}
-                    publication={publication}
-                    updatePublication={updatePublication}
-                    author={author}
+                  getProfile={getProfile}
+                  index={index}
+                  platform={platform}
+                  key={index}
+                  publication={publication}
+                  updatePublication={updatePublication}
+                  author={author}
+                  isFin={isFin}
+                  start={index === numToStar}
+                  num_to_start={numToStar}
+                  onNumeroChange={handleNumeroChange}
                   />
                 ))}
           </tbody>

@@ -25,6 +25,7 @@ import Stack from '@mui/material/Stack';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import DataTableComponent from "../DataTableComponent";
+import PublicationsAuth from "./components/PublicationsAuth";
 
 
 
@@ -172,7 +173,10 @@ const Author = (props) => {
           setChargement(false)
           setServerError(false)
           if (user) checkFollowAuthorization(receivedData.author);
-          setListPublications(receivedData.author.publications)
+          // setListPublications(receivedData.author.publications)
+          let lent = receivedData.author.publications.length
+          
+          setListPublications((lastElement) => [...lastElement,receivedData.author.publications[lent -1]])
         }
         else if (receivedData.state) {
           console.log(receivedData.state);
@@ -242,7 +246,7 @@ const Author = (props) => {
               />
 
 
-              <Publications
+              <PublicationsAuth
                 platform={platform}
                 author={author}
                 setAuthor={setAuthor}

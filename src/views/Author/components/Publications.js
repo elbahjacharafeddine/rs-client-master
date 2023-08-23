@@ -18,20 +18,21 @@ const Publications = ({ author, setAuthor, platform, getProfile, data, isFin }) 
 
   const handleNumeroChange = (newNumero) => {
     setNumToStart(newNumero);
-    let num = numToStar +1
+    let num = numToStar + 1
     console.log(num);
     setNumToStart(num)
-    console.log(numToStar+" la valeur modifie");
+    console.log(numToStar + " la valeur modifie");
     console.log("elbahja a fait la mise a jour de la variable");
   };
-  useEffect(() =>{
+  useEffect(() => {
 
-  },[numToStar])
+  }, [numToStar])
 
   useEffect(() => {
     // const table = $(tableRef.current).DataTable();
-// console.log("la valeur de is fin dans publiations is "+ isFin);
-console.log(data.length +" = la longueur de liste de publications");
+    // console.log("la valeur de is fin dans publiations is "+ isFin);
+    console.log(data.length + " = la longueur de liste de publications");
+    console.log("etat de isfin est :"+ isFin);
     setTimeout(() => {
       const publicationsTmp = author.publications.map((p) => ({
         ...p,
@@ -43,7 +44,7 @@ console.log(data.length +" = la longueur de liste de publications");
       }));
     }, author.publications.length * 4000);
 
-    
+
   }, [isFin]);
 
   const updatePublication = (index, publication) => {
@@ -137,7 +138,7 @@ console.log(data.length +" = la longueur de liste de publications");
       });
   };
 
-  
+
 
   return (
     <div className="card">

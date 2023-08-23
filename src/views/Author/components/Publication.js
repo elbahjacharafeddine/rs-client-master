@@ -28,100 +28,30 @@ const Publication = ({
   const [isFetched, setIsFetched] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const [newNumero, setNewNumero] = useState(num_to_start);
-
-  const getJournalDataa = async () => {
-    if (publication.searchedFor) return;
-
-    const journalName = publication.source
-      ? publication.source
-      : publication.extraInformation && publication.extraInformation["Journal"]
-        ? publication.extraInformation["Journal"]
-        : null;
-
-    if (!journalName || !publication.year || publication.year.trim() === "") {
-      console.log("No data");
-      updatePublication(index, {
-        ...publication,
-        searchedFor: true,
-      });
-      return;
-    }
-    setIsLoading(true);
-
-    try {
-      console.log("jouranlName : ", journalName);
-
-      const journalNameQuery = journalName.replace("/", "").replace("\\", "");
-
-      const response = await scraperService.getJournalData(
-        journalNameQuery,
-        publication.year
-      );
+  const [newNumero, setNewNumero] = useState(0);
 
 
-      if (response.data.error || response.data.status === 404) {
-        setNoResultFound(true);
-        updatePublication(index, {
-          ...publication,
-          searchedFor: true,
-        });
-      } else {
-        setIsFetched(true);
-        updatePublication(index, {
-          ...publication,
-          IF: response.data.journal["IF"],
-          SJR: response.data.journal["SJR"],
-          searchedFor: true,
-        });
+  useEffect(() => {
 
-        const userP = user._id;
-        const responseDB = userService.addSJR({
-          id: userP,
-          title: publication.title,
-          IF: response.data.journal["IF"],
-          SJR: response.data.journal["SJR"],
-        })
-      };
-
-
-    } catch (e) {
-      updatePublication(index, {
-        ...publication,
-        searchedFor: true,
-      });
-      pushAlert({
-        message:
-          "Incapable d'obtenir les données de la publication" +
-          publication.title,
-      });
-    }
-
-    setIsLoading(false);
-  };
-
-  useEffect(() =>{
-
-  },[start])
+  }, [start])
 
 
 
   useEffect(() => {
-    // let isMounted = true;
-    // console.log("la valeur de isFin dans publication is " + canStart);
     if (isFin) {
       if (start) {
-        if (!publication.IF && !publication.SJR && !publication.searchedFor)
-          // setTimeout(() => {
-            // if (isMounted) 
-            getJournalData();
-          // }, index * 1000);
+        if (!publication.IF && !publication.SJR && !publication.searchedFor) {
+          getJournalData();
+        }
+        else{
+          let n = newNumero +1
+          onNumeroChange(n)
+        }
       }
     }
-    // return () => {
-    //   isMounted = false;
-    // };
-  }, [isFin,start]);
+
+  }, [isFin, start]);
+
   const [modalShow, setModalShow] = useState(false);
   const showModal = (props) => {
     setModalShow(true);
@@ -256,7 +186,7 @@ const Publication = ({
     setIsLoading(true)
 
     // const ws = new WebSocket('ws://localhost:2000');
-     const ws = new WebSocket('wss://rs-scraper-master.onrender.com/'); // Remplacez l'URL en conséquence
+    const ws = new WebSocket('wss://rs-scraper-master.onrender.com/'); // Remplacez l'URL en conséquence
 
     const journalName = publication.source
       ? publication.source
@@ -301,7 +231,7 @@ const Publication = ({
         setIsLoading(false)
         setIsFetched(false)
       }
-      let n = newNumero+1
+      let n = newNumero + 1
       setNewNumero(n)
       onNumeroChange(n)
       // console.log(" la nouvelle valeur de numero = " +n);
@@ -321,7 +251,7 @@ const Publication = ({
     <>
       <tr style={{ whiteSpace: "break-spaces " }} key={publication.title}>
         <td style={{ width: "60%" }}>
-          {publication.title} 
+          {publication.title}
           {publication.authors && (
             <small
               style={{ whiteSpace: "break-spaces " }}
@@ -374,7 +304,7 @@ const Publication = ({
         </td>
         <td className="text-center">
           {noResultFound && " "}
-          {!isLoading && fetchedButton}
+          {fetchedButton}
         </td>
         <td>
           <IconButton id={publication._id}
