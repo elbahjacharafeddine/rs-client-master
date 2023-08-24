@@ -232,7 +232,7 @@ const Notifications = () => {
         style={{ width: "300px" }}
         className="dropdown-menu dropdown-menu-right dropdown-menu-arrow dropdown-menu-card"
       >
-        <div className="card p-1">
+        <div className="p-1">
           {notifications.map((notification, index) => (
             <Notification
               key={index}
