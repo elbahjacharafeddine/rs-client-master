@@ -123,8 +123,9 @@ const HomePage = () => {
   }, [updateStats]);
 
 
+
   return (
-    <div class="container">
+    <div class="container ">
       {user.roles.includes("LABORATORY_HEAD") ? <div class="row">
         <div class="col">
           <div class="card">
@@ -286,6 +287,7 @@ const HomePage = () => {
           </div>
         )}
       </div>
+
       {user.roles.includes("LABORATORY_HEAD") && (
         <div class="row">
           <div class="col-sm-12" >
