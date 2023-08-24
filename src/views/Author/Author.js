@@ -64,31 +64,6 @@ const Author = (props) => {
   };
 
 
-
-
-  const getAuthorData = useCallback(async () => {
-    try {
-      setAuthor();
-      setIsLoading(true);
-      if (isError) setIsError(false);
-      if (noResultFound) setNoResultFound(false);
-      const response = await scraperService.getAuthorData(platform, authorId);
-      if (response.data.author) {
-        setAuthor(response.data.author);
-        if (user) checkFollowAuthorization(response.data.author);
-      }
-      else if (response.data.error) setNoResultFound(true);
-      else {
-        // pushAlert({ message: "Incapable d'obtenir les données de l'auteur" });
-        console.log("Incapable d'obtenir les données de l'auteur");
-      }
-    } catch (error) {
-      setIsError(true);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [authorId]);
-
   const getIfIsFollowing = useCallback(async () => {
     try {
       const response = await userService.isFollowing(authorId);

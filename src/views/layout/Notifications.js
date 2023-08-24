@@ -98,7 +98,7 @@ const Notifications = () => {
         // );
 
         // const response = await Axios.get('http://localhost:2000/autho/scopus/'+followedUser.authorId)
-        const response = await Axios.get('https://rs-scraper-master.onrender.com/auth/scopus/'+followedUser.authorId)
+        const response = await Axios.get('https://rs-scraper-master.onrender.com/prof/scopus/'+followedUser.authorId)
         console.log("");
         console.log(response.data);
 
