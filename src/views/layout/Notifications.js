@@ -167,15 +167,15 @@ const Notifications = () => {
           processFollowedUsers()        
   }, [checkFollowedResearcher, followedUsers]);
 
-  // useEffect(() => {
-  //   findUserNotifications();
-  //   getFollowedResearchers();
-  // }, []);
+  useEffect(() => {
+    findUserNotifications();
+    getFollowedResearchers();
+  }, []);
 
-  // useEffect(() => {
-  //   if (!followedUsers || followedUsers.length === 0) return;
-  //   checkAllFollowedResearcher();
-  // }, [followedUsers]);
+  useEffect(() => {
+    if (!followedUsers || followedUsers.length === 0) return;
+    checkAllFollowedResearcher();
+  }, [followedUsers]);
 
   const markAsRead = useCallback(
     (notification) => async () => {

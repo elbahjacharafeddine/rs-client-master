@@ -243,12 +243,6 @@ const Author = (props) => {
         }
 
       </div>
-{/* {Listmessages &&
-      <DataTableComponent
-        data={Listmessages}
-      />
-} */}
-      {/* <button onClick={handleReceivedData}>show data</button> */}
 
     </>
   );
