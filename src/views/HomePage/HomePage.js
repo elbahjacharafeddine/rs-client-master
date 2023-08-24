@@ -127,7 +127,7 @@ const HomePage = () => {
   return (
     <div class="container ">
       {user.roles.includes("LABORATORY_HEAD") ? <div className="row">
-        <div class="col-sm-12">
+        <div class="col-sm-6">
           <div class="card">
             <div class="card-body">
               <div class="d-flex flex-row">
@@ -150,7 +150,7 @@ const HomePage = () => {
         </div>
 
         {user.roles.includes("RESEARCH_DIRECTOR") &&
-          <div class="col-sm-12">
+          <div class="col-sm-6">
             <div class="card">
               <div class="card-body">
                 <div class="d-flex flex-row">
@@ -172,7 +172,7 @@ const HomePage = () => {
             </div>
           </div>}
 
-        <div class="col-sm-12">
+        <div class="col-sm-6">
           <div class="card">
             <div class="card-body">
               <div class="d-flex flex-row">
@@ -195,7 +195,7 @@ const HomePage = () => {
         </div>
 
 
-        <div class="col-sm-12">
+        <div class="col-sm-6">
           <div class="card">
             <div class="card-body">
               <div class="d-flex flex-row">
@@ -216,7 +216,7 @@ const HomePage = () => {
             </div>
           </div>
         </div>
-        <div class="col-sm-12">
+        <div class="col-sm-6">
           <div class="card">
             <div class="card-body">
               <div class="d-flex flex-row">
