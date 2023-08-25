@@ -321,7 +321,7 @@ const HomePage = () => {
                 <div class="d-flex flex-row">
                   <Bar
                     data={classement}
-                    height={100}
+                    height={150}
                     options={{
                       title: {
                         display: true,
