@@ -2,7 +2,7 @@
 .custom-navbar-collapse {
   position: fixed; /* Fixe la barre de navigation en haut de la page */
   background-color: #f8f9fa; /* Choisissez une couleur de fond appropriée */
-  width: 90%;
+  width: 100%;
   top: 120px; /* Place la barre de navigation en haut de la page */
   left: 0;
   z-index: 1000; /* Assurez-vous que la barre s'affiche au-dessus du contenu */
