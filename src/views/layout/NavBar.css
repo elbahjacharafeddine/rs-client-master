@@ -1,12 +1,11 @@
-/* .custom-navbar-collapse {
-  position:fixed; 
-  background-color: #f8f9fa; 
+/* MenuBar.css */
+.custom-navbar-collapse {
+  position: absolute;
+  background-color: #f8f9fa; /* Choisissez une couleur de fond appropriée */
   width: 100%;
-  top: 100%; 
+  top: 100%; /* Pousse le contenu hors de la page */
   left: 0;
-  z-index: 1000; 
-
-  padding: 0.5rem;
-  box-shadow: 0px 5px 5px rgba(39, 134, 10, 0.1); 
-} */
-
+  z-index: 1000; /* Assurez-vous que la barre s'affiche au-dessus du contenu */
+  padding: 0.5rem; /* Ajoutez un espacement si nécessaire */
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1); /* Ajoutez une ombre si nécessaire */
+}
