@@ -172,6 +172,28 @@ const HomePage = () => {
             </div>
           </div>}
 
+          <div class="col-sm-6">
+          <div class="card">
+            <div class="card-body">
+              <div class="d-flex flex-row">
+                <div class="col-3 align-self-center">
+                  <div class="round ">
+                    <Icon path={mdiNoteMultiple}
+                      size={2}
+                      color="#d9534f" />
+                  </div>
+                </div>
+                <div class="col-9 text-right align-self-center">
+                  <div class="m-l-10 ">
+                    <h5 class="mt-0">{pubs}</h5>
+                    <p class="mb-0 text-muted">Publications</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="col-sm-6">
           <div class="card">
             <div class="card-body">
@@ -216,27 +238,8 @@ const HomePage = () => {
             </div>
           </div>
         </div>
-        <div class="col-sm-6">
-          <div class="card">
-            <div class="card-body">
-              <div class="d-flex flex-row">
-                <div class="col-3 align-self-center">
-                  <div class="round ">
-                    <Icon path={mdiNoteMultiple}
-                      size={2}
-                      color="#d9534f" />
-                  </div>
-                </div>
-                <div class="col-9 text-right align-self-center">
-                  <div class="m-l-10 ">
-                    <h5 class="mt-0">{pubs}</h5>
-                    <p class="mb-0 text-muted">Publications</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        
+
       </div> : ""}
 
       <div className="row">
