@@ -63,7 +63,21 @@ const HomePage = () => {
         var nom = new Array();
         var nombre = new Array();
         response.data.forEach((data) => {
-          nom.push(data.name);
+
+          const parts = data.name.split(" ");
+          
+          if(parts.length >=3){
+            nom.push(parts.slice(0, 2).join(" "));
+            console.log("verifier");
+          }
+          else if(parts.length >=2){
+            nom.push(parts.slice(0, 1).join(" "))
+          }
+          else{
+            nom.push(data.name)
+          }
+
+          // nom.push(data.name);
           nombre.push(data.publications.length)
           data.publications.forEach((pub) => {
             pubData.set(pub.year, 0)
@@ -172,7 +186,7 @@ const HomePage = () => {
             </div>
           </div>}
 
-          <div class="col-sm-6">
+        <div class="col-sm-6">
           <div class="card">
             <div class="card-body">
               <div class="d-flex flex-row">
@@ -238,7 +252,7 @@ const HomePage = () => {
             </div>
           </div>
         </div>
-        
+
 
       </div> : ""}
 
@@ -278,12 +292,12 @@ const HomePage = () => {
             </p>
             <p className="empty-subtitle text-muted">
               Vous pouvez gérer votre équipe
-          </p>
+            </p>
             {user.teamsHeaded.map(({ abbreviation, _id }) => (
               <div className="empty-action">
                 <Link to={`/team/${_id}`} className="btn btn-primary">
                   <SettingsIcon />
-                Gérer votre équipe {abbreviation}
+                  Gérer votre équipe {abbreviation}
                 </Link>
               </div>
             ))}
@@ -299,7 +313,7 @@ const HomePage = () => {
                 <div class="d-flex flex-row">
                   <Bar
                     data={state}
-                    height={180}
+                    height={160}
                     options={{
                       title: {
                         display: true,
@@ -322,6 +336,7 @@ const HomePage = () => {
                   <Bar
                     data={classement}
                     height={180}
+                    width={300}
                     options={{
                       title: {
                         display: true,
@@ -340,7 +355,7 @@ const HomePage = () => {
 
 
         </div>
-        )}
+      )}
     </div>
   );
 };
