@@ -16,7 +16,7 @@
   }
 }
 
-@media (min-width: 768px) {
+@media (max-width: 800px ) {
   /* Pour les écrans de largeur minimale de 768px (tablettes et plus larges) */
   .custom-navbar-collapse {
     position: fixed;
