@@ -346,6 +346,7 @@ const HomePage = () => {
                         display: true,
                         position: 'top'
                       }
+                      
                     }}
                   />
                 </div>
