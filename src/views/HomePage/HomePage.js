@@ -343,19 +343,25 @@ const HomePage = () => {
           <div class="col-12" >
             <div class="card">
               <div class="card-body">
-                <div class="d-flex flex-row">
+              <h5 className="card-title">Nombre des publications par année</h5>
+              <div className="chart-container" style={{ position: 'relative', height: '400px', width: '100%' }}>
+                
                   <Bar
                     data={state}
                     height={100}
                     ref={barChartRef}
                     options={{
-                      title: {
-                        display: true,
-                        text: 'Nombre des publications par année',
+                      maintainAspectRatio: false, // Permettre l'ajustement de la hauteur
+                      responsive: true, // Activer la responsivité
+                      scales: {
+                        y: {
+                          beginAtZero: true
+                        }
                       },
-                      legend: {
-                        display: true,
-                        position: 'top'
+                      plugins: {
+                        legend: {
+                          position: 'top'
+                        }
                       }
                     }}
                   />
@@ -366,20 +372,24 @@ const HomePage = () => {
           <div class="col-12" >
             <div class="card">
               <div class="card-body">
-                <div class="d-flex flex-row">
+              <h5 className="card-title">Nombre des publications par année</h5>
+              <div className="chart-container" style={{ position: 'relative', height: '400px', width: '100%' }}>
                   <Bar
                     data={classement}
                     height={100}
                     options={{
-                      title: {
-                        display: true,
-                        text: 'Classement des chercheurs (nombre de publications)',
+                      maintainAspectRatio: false, // Permettre l'ajustement de la hauteur
+                      responsive: true, // Activer la responsivité
+                      scales: {
+                        y: {
+                          beginAtZero: true
+                        }
                       },
-                      legend: {
-                        display: true,
-                        position: 'top'
+                      plugins: {
+                        legend: {
+                          position: 'top'
+                        }
                       }
-
                     }}
                   />
                 </div>
