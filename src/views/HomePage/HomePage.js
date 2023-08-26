@@ -126,7 +126,7 @@ const HomePage = () => {
       }
       else throw Error();
     } catch (error) {
-      console.log(error)
+      // console.log(error)
     }
 
 

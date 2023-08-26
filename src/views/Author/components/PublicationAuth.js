@@ -84,7 +84,7 @@ const PublicationAuth = ({
       console.log("error Publication Year" + error);
     }
 
-    ws.onmessage = (event) => {
+    ws.onmessage = async (event) => {
       try {
         const receivedData = JSON.parse(event.data);
         console.log(receivedData.SJR);
@@ -95,6 +95,13 @@ const PublicationAuth = ({
           SJR: receivedData.SJR,
           searchedFor: true,
         });
+        const res = await userService.addSJR(receivedData.SJR)
+        if(res){
+          console.log("saved with succes");
+        }
+        else{
+          console.log("not yet ...");
+        }
         setIsLoading(false);
       } catch (error) {
         console.log(error);

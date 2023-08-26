@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     borderColor: "#eceeef",
     borderWidth: 1,
-    marginBottom: "2rem",
+    // marginBottom: "2rem",
   },
   tableRow: { margin: "auto", flexDirection: "row" },
   tableCol: {
