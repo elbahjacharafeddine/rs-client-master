@@ -1,25 +1,28 @@
-/* MenuBar.css */
-.custom-navbar-collapse {
-  background-color: #f8f9fa; /* Choisissez une couleur de fond appropriée */
-  width: 100%;
-  left: 0;
-  z-index: 1000; /* Assurez-vous que la barre s'affiche au-dessus du contenu */
-  padding: 0.5rem; /* Ajoutez un espacement si nécessaire */
-  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1); /* Ajoutez une ombre si nécessaire */
-}
+
 
 @media (max-width: 767px) {
-  /* Pour les écrans de largeur maximale de 767px (mobiles) */
   .custom-navbar-collapse {
-    position: fixed;
-    top: 120px;
+    position:absolute;
+    background-color: #f8f9fa; 
+    width: 100%;
+    left: 0;
+    top: 60px;
+    z-index: 1000;
+    padding: 0.5rem; 
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1); 
   }
 }
 
 @media (max-width: 800px ) {
-  /* Pour les écrans de largeur minimale de 768px (tablettes et plus larges) */
+
   .custom-navbar-collapse {
-    position: fixed;
-    top: 120px;
+    position: absolute;
+    background-color: #f8f9fa; 
+    width: 100%;
+    left: 0;
+    top:60px;
+    z-index: 1000; 
+    padding: 0.5rem; 
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1); 
   }
 }

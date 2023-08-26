@@ -1,4 +1,4 @@
-import React, { useContext, useState, useCallback, useEffect } from "react";
+import React, { useContext, useState, useCallback, useEffect, useRef } from "react";
 
 import image1 from "../../assets/images/illustrations/undraw_people_search.svg";
 import image2 from "../../assets/images/illustrations/undraw_hire_te5y.svg";
@@ -66,15 +66,15 @@ const HomePage = () => {
         response.data.forEach((data) => {
 
           const parts = data.name.split(" ");
-          
-          if(parts.length >=3){
+
+          if (parts.length >= 3) {
             nom.push(parts.slice(0, 2).join(" "));
-            console.log("verifier");
+
           }
-          else if(parts.length >=2){
+          else if (parts.length >= 2) {
             nom.push(parts.slice(0, 1).join(" "))
           }
-          else{
+          else {
             nom.push(data.name)
           }
 
@@ -136,6 +136,37 @@ const HomePage = () => {
   useEffect(() => {
     updateStats();
   }, [updateStats]);
+
+
+  const [heightt, setHeightt] = useState(100)
+  const [classe, setClasse] = useState('col-12')
+
+  const barChartRef = useRef(null);
+
+  useEffect(() => {
+    const adjustBarChartHeight = () => {
+      const screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+      console.log(screenWidth);
+      if (screenWidth <= 767) {
+        setHeightt(250)
+        setClasse('col-12 col-sm-6')
+        console.log("< 767");
+      } else {
+        setHeightt(100)
+        setClasse("col-12")
+      }
+    };
+
+    adjustBarChartHeight();
+    window.addEventListener('resize', adjustBarChartHeight);
+
+    return () => {
+      window.removeEventListener('resize', adjustBarChartHeight);
+    };
+  }, [heightt, classe]);
+
+
+
 
 
 
@@ -308,14 +339,15 @@ const HomePage = () => {
 
       {user.roles.includes("LABORATORY_HEAD") && (
         <div class="row">
-          <div class="col-sm-6" >
+          <div class={classe} >
             <div class="card">
               <div class="card-body">
                 <div class="d-flex flex-row">
                   <Bar
                     data={state}
-                    height={256}
-                    
+                    className="mobile-bar-chart"
+                    height={{heightt}}
+                    ref={barChartRef}
                     options={{
                       title: {
                         display: true,
@@ -331,13 +363,13 @@ const HomePage = () => {
               </div>
             </div>
           </div>
-          <div class="col-sm-6" >
+          <div class={classe} >
             <div class="card">
               <div class="card-body">
                 <div class="d-flex flex-row">
                   <Bar
                     data={classement}
-                    height={256}
+                    height={{heightt}}
                     options={{
                       title: {
                         display: true,
@@ -347,7 +379,7 @@ const HomePage = () => {
                         display: true,
                         position: 'top'
                       }
-                      
+
                     }}
                   />
                 </div>

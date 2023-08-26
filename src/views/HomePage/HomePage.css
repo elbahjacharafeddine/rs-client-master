@@ -12,3 +12,8 @@
     }
   } */
   
+  /* @media (max-width: 767px) {
+    .mobile-bar-chart canvas {
+      height: 450px !important;
+    }
+  } */
