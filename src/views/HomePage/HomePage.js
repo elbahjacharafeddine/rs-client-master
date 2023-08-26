@@ -7,6 +7,7 @@ import { LoopIcon, SettingsIcon } from "../components/icons";
 import { AppContext } from "../../context/AppContext";
 import { Bar, Chart } from 'react-chartjs-2';
 import Icon from '@mdi/react';
+import './HomePage.css';
 import { mdiAccountClock, mdiAccountGroupOutline, mdiAccountMultipleMinus, mdiAccountGroup, mdiNoteMultiple } from '@mdi/js';
 
 const HomePage = () => {
@@ -307,13 +308,14 @@ const HomePage = () => {
 
       {user.roles.includes("LABORATORY_HEAD") && (
         <div class="row">
-          <div class="col-sm-12" >
+          <div class="col-sm-6" >
             <div class="card">
               <div class="card-body">
                 <div class="d-flex flex-row">
                   <Bar
                     data={state}
-                    height={160}
+                    height={256}
+                    
                     options={{
                       title: {
                         display: true,
@@ -329,14 +331,13 @@ const HomePage = () => {
               </div>
             </div>
           </div>
-          <div class="col-sm-12" >
+          <div class="col-sm-6" >
             <div class="card">
               <div class="card-body">
                 <div class="d-flex flex-row">
                   <Bar
                     data={classement}
-                    height={180}
-                    width={300}
+                    height={256}
                     options={{
                       title: {
                         display: true,
