@@ -351,8 +351,8 @@ const HomePage = () => {
                     height={100}
                     ref={barChartRef}
                     options={{
-                      maintainAspectRatio: false, // Permettre l'ajustement de la hauteur
-                      responsive: true, // Activer la responsivité
+                      maintainAspectRatio: false, 
+                      responsive: true, 
                       scales: {
                         y: {
                           beginAtZero: true
@@ -372,14 +372,14 @@ const HomePage = () => {
           <div class="col-12" >
             <div class="card">
               <div class="card-body">
-              <h5 className="card-title">Nombre des publications par année</h5>
+              <h5 className="card-title">Classement des chercheurs (nombre de publications)</h5>
               <div className="chart-container" style={{ position: 'relative', height: '400px', width: '100%' }}>
                   <Bar
                     data={classement}
                     height={100}
                     options={{
-                      maintainAspectRatio: false, // Permettre l'ajustement de la hauteur
-                      responsive: true, // Activer la responsivité
+                      maintainAspectRatio: false, 
+                      responsive: true, 
                       scales: {
                         y: {
                           beginAtZero: true
