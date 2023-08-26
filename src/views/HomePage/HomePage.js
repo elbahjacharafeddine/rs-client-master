@@ -9,6 +9,7 @@ import { Bar, Chart } from 'react-chartjs-2';
 import Icon from '@mdi/react';
 import './HomePage.css';
 import { mdiAccountClock, mdiAccountGroupOutline, mdiAccountMultipleMinus, mdiAccountGroup, mdiNoteMultiple } from '@mdi/js';
+import { Height } from "@material-ui/icons";
 
 const HomePage = () => {
   Chart.defaults.global.legend.labels.usePointStyle = true;
@@ -138,32 +139,32 @@ const HomePage = () => {
   }, [updateStats]);
 
 
-  const [heightt, setHeightt] = useState(100)
+  const [heightt, setHeightt] = useState()
   const [classe, setClasse] = useState('col-12')
 
   const barChartRef = useRef(null);
 
-  useEffect(() => {
-    const adjustBarChartHeight = () => {
-      const screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-      console.log(screenWidth);
-      if (screenWidth <= 767) {
-        setHeightt(250)
-        setClasse('col-12 col-sm-6')
-        console.log("< 767");
-      } else {
-        setHeightt(100)
-        setClasse("col-12")
-      }
-    };
+  // useEffect(() => {
+  //   const adjustBarChartHeight = () => {
+  //     const screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+  //     console.log(screenWidth);
+  //     if (screenWidth <= 767) {
+  //       setHeightt(250)
+  //       setClasse('col-12 col-sm-6')
+  //       console.log("< 767");
+  //     } else {
+  //       setHeightt(100)
+  //       setClasse("col-12")
+  //     }
+  //   };
 
-    adjustBarChartHeight();
-    window.addEventListener('resize', adjustBarChartHeight);
+  //   adjustBarChartHeight();
+  //   window.addEventListener('resize', adjustBarChartHeight);
 
-    return () => {
-      window.removeEventListener('resize', adjustBarChartHeight);
-    };
-  }, [heightt, classe]);
+  //   return () => {
+  //     window.removeEventListener('resize', adjustBarChartHeight);
+  //   };
+  // }, [heightt, classe]);
 
 
 
@@ -172,6 +173,7 @@ const HomePage = () => {
 
   return (
     <div class="container ">
+      <button>{heightt}</button>
       {user.roles.includes("LABORATORY_HEAD") ? <div className="row">
         <div class="col-sm-6">
           <div class="card">
@@ -339,14 +341,13 @@ const HomePage = () => {
 
       {user.roles.includes("LABORATORY_HEAD") && (
         <div class="row">
-          <div class={classe} >
+          <div class="col-12" >
             <div class="card">
               <div class="card-body">
                 <div class="d-flex flex-row">
                   <Bar
                     data={state}
-                    className="mobile-bar-chart"
-                    height={{heightt}}
+                    height={100}
                     ref={barChartRef}
                     options={{
                       title: {
@@ -363,13 +364,13 @@ const HomePage = () => {
               </div>
             </div>
           </div>
-          <div class={classe} >
+          <div class="col-12" >
             <div class="card">
               <div class="card-body">
                 <div class="d-flex flex-row">
                   <Bar
                     data={classement}
-                    height={{heightt}}
+                    height={100}
                     options={{
                       title: {
                         display: true,
