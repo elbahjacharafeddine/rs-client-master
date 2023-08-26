@@ -173,7 +173,6 @@ const HomePage = () => {
 
   return (
     <div class="container ">
-      <button>{heightt}</button>
       {user.roles.includes("LABORATORY_HEAD") ? <div className="row">
         <div class="col-sm-6">
           <div class="card">
