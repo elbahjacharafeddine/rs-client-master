@@ -18,7 +18,8 @@ const Publication = ({
   isFin,
   start,
   num_to_start,
-  onNumeroChange
+  onNumeroChange,
+  user_id
 }) => {
   const { ApiServices, user, alertService } = useContext(AppContext);
   const { pushAlert } = alertService;
@@ -43,8 +44,8 @@ const Publication = ({
         if (!publication.IF && !publication.SJR && !publication.searchedFor) {
           getJournalData();
         }
-        else{
-          let n = newNumero +1
+        else {
+          let n = newNumero + 1
           onNumeroChange(n)
         }
       }
@@ -225,12 +226,21 @@ const Publication = ({
           SJR: receivedData.SJR,
           searchedFor: true,
         });
-        const res = await userService.addSJR(receivedData.SJR)
-        if(res){
-          console.log("saved with succes");
-        }
-        else{
-          console.log("not yet ...");
+        if (user_id) {
+          const SJR = {
+            id:user_id,
+            title: publication.title,
+            SJR: receivedData.SJR,
+            year: publication.year
+          }
+          const res = await userService.addSJR(SJR)
+          console.log(res);
+          if (res.status.ok) {
+            console.log("saved with succes");
+          }
+          else {
+            console.log("not yet ...");
+          }
         }
         setIsLoading(false);
       } catch (error) {

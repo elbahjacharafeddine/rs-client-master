@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     borderColor: "#eceeef",
     borderWidth: 1,
-    padding: "1rem",
+    // padding: "1rem",
   },
   tableCell: { margin: "auto", marginTop: 5, fontSize: 10, },
   tableCel: { marginTop: 5, fontSize: 10, },

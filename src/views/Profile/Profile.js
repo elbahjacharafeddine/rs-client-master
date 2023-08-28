@@ -321,6 +321,7 @@ const Profile = () => {
             getProfile={getProfile}
             data={profileUser.correspondingFollowedUser.publications}
             isFin={true}
+            user_id={id}
           />
           )
         }  else {
@@ -331,6 +332,7 @@ const Profile = () => {
             getProfile={getProfile}
             data={correspondingFollowedUser.publications}
             isFin={true}
+            user_id={id}
           />
           )
         }

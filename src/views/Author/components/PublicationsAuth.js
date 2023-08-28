@@ -3,7 +3,7 @@ import { AppContext } from "../../../context/AppContext";
 import PublicationAuth from "./PublicationAuth";
 import Publication from "./Publication";
 
-const PublicationsAuth = ({author, setAuthor, platform, getProfile, data, isFin }) => {
+const PublicationsAuth = ({author, setAuthor, platform, getProfile, data, isFin, user_id }) => {
   const { ApiServices, user, setUser, alertService } = useContext(AppContext);
   const { pushAlert } = alertService;
   const { userService } = ApiServices;
@@ -12,10 +12,7 @@ const PublicationsAuth = ({author, setAuthor, platform, getProfile, data, isFin 
   const handleNumeroChange = (newNumero) => {
     setNumToStart(newNumero);
     let num = numToStar + 1
-    console.log(num);
     setNumToStart(num)
-    console.log(numToStar + " la valeur modifie");
-    console.log("elbahja a fait la mise a jour de la variable");
   };
   
   useEffect(() => {
@@ -80,6 +77,7 @@ const PublicationsAuth = ({author, setAuthor, platform, getProfile, data, isFin 
                   start={index === numToStar}
                   num_to_start={numToStar}
                   onNumeroChange={handleNumeroChange}
+                  user_id={user_id}
                   />
                 ))}
           </tbody>

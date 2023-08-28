@@ -15,6 +15,9 @@ import Loader from "../components/Loader";
 import Axios from "axios";
 import { dark } from "@mui/material/styles/createPalette";
 
+import amqp from 'amqplib'
+
+
 const Notifications = () => {
   const { user, ApiServices, alertService } = useContext(AppContext);
   const { pushAlert } = alertService;
@@ -23,6 +26,7 @@ const Notifications = () => {
   const [notifications, setNotifications] = useState([]);
   const [followedUsers, setFollowedResearchers] = useState([]);
   const [start, setStart] = useState(true)
+
 
   const findUserNotifications = useCallback(async () => {
     try {
@@ -97,8 +101,9 @@ const Notifications = () => {
         //   followedUser.authorId
         // );
 
-        // const response = await Axios.get('http://localhost:2000/autho/scopus/'+followedUser.authorId)
-        const response = await Axios.get('https://rs-scraper-master.onrender.com/prof/scopus/'+followedUser.authorId)
+        // const response = await Axios.get('http://localhost:8888/prof/scopus/'+followedUser.authorId)
+        // const response = await Axios.get('https://rs-scraper-master.onrender.com/prof/scopus/' + followedUser.authorId)
+        const response = await Axios.get('https://1c66-197-253-242-46.ngrok.io/prof/scopus/' + followedUser.authorId)
         console.log("");
         console.log(response.data);
 
@@ -107,32 +112,32 @@ const Notifications = () => {
         //   console.log(receivedData);
 
 
-          if (!response.data.author) throw new Error();
-          // if (!receivedData.author) throw new Error();
+        if (!response.data.author) throw new Error();
+        // if (!receivedData.author) throw new Error();
 
-          const scrapedPublications = response.data.author.publications;
-          // const scrapedPublications = receivedData.author.publications
+        const scrapedPublications = response.data.author.publications;
+        // const scrapedPublications = receivedData.author.publications
 
-          console.log("scrapedPublications : ", scrapedPublications.length);
+        console.log("scrapedPublications : ", scrapedPublications.length);
 
-          const storedPublicationsTitles = followedUser.publications.map(
-            ({ title }) => title
-          );
+        const storedPublicationsTitles = followedUser.publications.map(
+          ({ title }) => title
+        );
 
-          console.log(
-            "storedPublicationsTitles : ",
-            storedPublicationsTitles.length
-          );
+        console.log(
+          "storedPublicationsTitles : ",
+          storedPublicationsTitles.length
+        );
 
-          const newPublications = scrapedPublications.filter(
-            ({ title }) => !storedPublicationsTitles.includes(title)
-          );
+        const newPublications = scrapedPublications.filter(
+          ({ title }) => !storedPublicationsTitles.includes(title)
+        );
 
-          console.log(
-            "%cNew publications of %s",
-            "color: #8a6d3b;background-color: #fcf8e3;",
-            `${followedUser.firstName} ${followedUser.lastName} : ${newPublications.length}`
-          );
+        console.log(
+          "%cNew publications of %s",
+          "color: #8a6d3b;background-color: #fcf8e3;",
+          `${followedUser.firstName} ${followedUser.lastName} : ${newPublications.length}`
+        );
 
         const responses = await Promise.all(
           newPublications.map(
@@ -164,18 +169,18 @@ const Notifications = () => {
 
   const checkAllFollowedResearcher = useCallback(() => {
     if (followedUsers.length === 0) return;
-          processFollowedUsers()        
+    processFollowedUsers()
   }, [checkFollowedResearcher, followedUsers]);
 
-  // useEffect(() => {
-  //   findUserNotifications();
-  //   getFollowedResearchers();
-  // }, []);
+  useEffect(() => {
+    findUserNotifications();
+    getFollowedResearchers();
+  }, []);
 
-  // useEffect(() => {
-  //   if (!followedUsers || followedUsers.length === 0) return;
-  //   checkAllFollowedResearcher();
-  // }, [followedUsers]);
+  useEffect(() => {
+    if (!followedUsers || followedUsers.length === 0) return;
+    checkAllFollowedResearcher();
+  }, [followedUsers]);
 
   const markAsRead = useCallback(
     (notification) => async () => {
@@ -212,6 +217,9 @@ const Notifications = () => {
   }
 
 
+
+
+
   return (
     <Fragment>
       <a
@@ -240,8 +248,11 @@ const Notifications = () => {
               markAsRead={markAsRead(notification)}
             />
           ))}
+
         </div>
+
       </div>
+      {/* <button onClick={connectToRabbitMQ}>Click me</button> */}
     </Fragment>
   );
 };

@@ -9,7 +9,7 @@ import swal from 'sweetalert';
 import $ from "jquery";
 import "datatables";
 
-const Publications = ({ author, setAuthor, platform, getProfile, data, isFin }) => {
+const Publications = ({ author, setAuthor, platform, getProfile, data, isFin, user_id}) => {
   const { ApiServices, user, setUser, alertService } = useContext(AppContext);
   const { pushAlert } = alertService;
   const { userService } = ApiServices;
@@ -177,6 +177,7 @@ const Publications = ({ author, setAuthor, platform, getProfile, data, isFin }) 
                     start={index === numToStar}
                     num_to_start={numToStar}
                     onNumeroChange={handleNumeroChange}
+                    user_id={user_id}
                   />
                 ))}
           </tbody>
