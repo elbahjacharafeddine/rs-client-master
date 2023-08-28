@@ -103,7 +103,7 @@ const Notifications = () => {
 
         // const response = await Axios.get('http://localhost:8888/prof/scopus/'+followedUser.authorId)
         // const response = await Axios.get('https://rs-scraper-master.onrender.com/prof/scopus/' + followedUser.authorId)
-        const response = await Axios.get('https://1c66-197-253-242-46.ngrok.io/prof/scopus/' + followedUser.authorId)
+        const response = await Axios.get('https://218a-197-253-221-16.ngrok.io/prof/scopus/' + followedUser.authorId)
         console.log("");
         console.log(response.data);
 
