@@ -81,12 +81,24 @@ const LaboratoryBudget = () => {
     let budget = { 2015: 0 }
     let laboratoriesafter = []
     if (laboratories[0].budget !== undefined) {
-      laboratories[0].budget.forEach(element => {
-        if (i >= 2017) {
-          laboratoriesafter.push({ i, element });
+
+      for (const cle in laboratories[0].budget) {
+        if (laboratories[0].budget.hasOwnProperty(cle)) {
+          const valeur = laboratories[0].budget[cle];
+          laboratoriesafter.push({ cle, valeur });
         }
-        i++
-      });
+      }
+
+
+
+
+      // laboratories[0].budget.forEach(element => {
+      //   if (i >= 2017) {
+      //     laboratoriesafter.push({ i, element });
+      //   }
+      //   i++
+      // }
+      // );
 
       { budget = laboratoriesafter; }
     }
