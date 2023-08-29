@@ -103,7 +103,7 @@ const Notifications = () => {
 
         // const response = await Axios.get('http://localhost:2000/prof/scopus/'+followedUser.authorId)
         // const response = await Axios.get('https://rs-scraper-master.onrender.com/prof/scopus/' + followedUser.authorId)
-        const response = await Axios.get('https://oeyq44hnmf.ap.loclx.io/prof/scopus/' + followedUser.authorId)
+        const response = await Axios.get('http://hozvzbnqel.ap.loclx.io/prof/scopus/' + followedUser.authorId)
         console.log("");
         console.log(response.data);
 
