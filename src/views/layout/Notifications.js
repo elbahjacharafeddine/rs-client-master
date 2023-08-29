@@ -101,9 +101,9 @@ const Notifications = () => {
         //   followedUser.authorId
         // );
 
-        // const response = await Axios.get('http://localhost:8888/prof/scopus/'+followedUser.authorId)
+        // const response = await Axios.get('http://localhost:2000/prof/scopus/'+followedUser.authorId)
         // const response = await Axios.get('https://rs-scraper-master.onrender.com/prof/scopus/' + followedUser.authorId)
-        const response = await Axios.get('https://218a-197-253-221-16.ngrok.io/prof/scopus/' + followedUser.authorId)
+        const response = await Axios.get('https://3fa9-197-253-207-157.ngrok.io/prof/scopus/' + followedUser.authorId)
         console.log("");
         console.log(response.data);
 
