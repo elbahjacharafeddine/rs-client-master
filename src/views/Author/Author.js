@@ -124,7 +124,7 @@ const Author = (props) => {
       console.log("authorized");
     }
   }, []);
-
+//
   // const ws = new WebSocket('ws://localhost:2000');
   const ws = new WebSocket('wss://rs-scraper-master.onrender.com/'); // Remplacez l'URL en conséquence
 
