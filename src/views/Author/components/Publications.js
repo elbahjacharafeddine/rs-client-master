@@ -21,8 +21,6 @@ const Publications = ({ author, setAuthor, platform, getProfile, data, isFin, us
     let num = numToStar + 1
     console.log(num);
     setNumToStart(num)
-    console.log(numToStar + " la valeur modifie");
-    console.log("elbahja a fait la mise a jour de la variable");
   };
   useEffect(() => {
 
