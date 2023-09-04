@@ -60,7 +60,7 @@ const LabStatistics = () => {
     setResearchersStatistics([]);
     Promise.all(lab.teams.map(
       (async (team) => {
-        const response = await statisticsService.getStatistics({ [`team_abbreviation`]: team.abbreviation });
+        const response = await statisticsService.getStatistics({ [`team_abbreviation`]: team.abbreviation, [`laboratory_abbreviation`]:lab.abbreviation });
         console.log("data for statistics is :");
         console.log(response.data);
         if (response.data) {
@@ -237,24 +237,29 @@ const LabStatistics = () => {
 
   }, [selectedLabs])
 
-const liste =[]
+const listForLTI =[]
   useEffect(() =>{
     dataForStatistique.forEach(e => {
       // if(e.yearlyPublications ==2023){
-        liste.push(e)
+        // liste.push(e)
       // }
     });
   },[statisticsService])
 
   
-const listte =[]
+const listForLABSIP =[]
 const showData = () =>{
   dataForStatistique.forEach((e) =>{
-    console.log("element " );
-    console.log(e.yearlyPublications);
-    listte.push(e.yearlyPublications)
+    if(e.laboratory =="LTI"){
+      listForLTI.push(e.yearlyPublications)
+    }
+    else if(e.laboratory !=="LTI")
+    {
+      listForLABSIP.push(e.yearlyPublications)
+    }
   })
-  console.log(listte);
+  console.log(listForLTI);
+  console.log(listForLABSIP);
 }
 
 
