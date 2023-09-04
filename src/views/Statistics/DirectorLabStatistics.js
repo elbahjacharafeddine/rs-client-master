@@ -247,10 +247,33 @@ const liste =[]
   },[statisticsService])
 
   
-
+const listte =[]
 const showData = () =>{
-  console.log(dataForStatistique);
+  dataForStatistique.forEach((e) =>{
+    console.log("element " );
+    console.log(e.yearlyPublications);
+    listte.push(e.yearlyPublications)
+  })
+  console.log(listte);
 }
+
+
+const [chartt, setChartt] = useState({
+  data: {
+    unload: true,
+    x: "x",
+    type: "line",
+    columns: [
+      ["x", "2010", "2011", "2012", "2013", "2014"],
+      [ 100, 120, 150, 180, 200],
+    ],
+  },
+});
+
+
+
+
+
 
   return (
     <div className="container">
