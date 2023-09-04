@@ -226,22 +226,25 @@ const Publication = ({
           SJR: receivedData.SJR,
           searchedFor: true,
         });
-        if (user_id) {
+        // if (user_id) {
           const SJR = {
             id:user_id,
+            source:journalName,
             title: publication.title,
             SJR: receivedData.SJR,
             year: publication.year
           }
+          console.log(SJR);
           const res = await userService.addSJR(SJR)
+          console.log("update for SJR :");
           console.log(res);
-          if (res.status.ok) {
+          if (res.status==200) {
             console.log("saved with succes");
           }
           else {
             console.log("not yet ...");
           }
-        }
+        // }
         setIsLoading(false);
       } catch (error) {
         console.log(error);

@@ -2,6 +2,8 @@ import React, { useEffect, useState, useContext } from "react";
 import { AppContext } from "../../../context/AppContext";
 import PublicationAuth from "./PublicationAuth";
 import Publication from "./Publication";
+import $ from "jquery";
+import "datatables";
 
 const PublicationsAuth = ({author, setAuthor, platform, getProfile, data, isFin, user_id }) => {
   const { ApiServices, user, setUser, alertService } = useContext(AppContext);
@@ -43,11 +45,16 @@ const PublicationsAuth = ({author, setAuthor, platform, getProfile, data, isFin,
     }));
   };
  
+  useEffect(() => {
+   
+    if ( data.length) $(".datatable").DataTable();
+  }, [ data]);
+
 
   return (
     <div className="card">
       <div className="table-responsive">
-        <table className="table card-table table-vcenter text-nowrap ">
+        <table className="table card-table table-vcenter text-nowrap datatable ">
           <thead>
             <tr>
               <th>Titre</th>
@@ -62,7 +69,7 @@ const PublicationsAuth = ({author, setAuthor, platform, getProfile, data, isFin,
           </thead>
           <tbody>
             {author.publications &&
-              author.publications
+              data
                 .sort((a, b) => b.title - a.title)
                 .map((publication, index) => (
                   <PublicationAuth

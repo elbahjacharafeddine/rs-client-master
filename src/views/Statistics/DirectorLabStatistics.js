@@ -15,12 +15,15 @@ import NoResultFound from "../components/NoResultFound";
 const LabStatistics = () => {
   const [researchersStatistics, setResearchersStatistics] = useState([]);
   const [labsStatistics, setLabsStatistics] = useState([]);
-
+  const [dataForStatistique, setDataStatistique] =useState([])
   const [selectedLabs, setSelectedLabs] = useState([]);
   const [
     filteredResearchersStatistics,
     setFilteredResearchersStatistics,
   ] = useState([]);
+
+  const [dataforLabLTI,setDataForLabLTI] = useState([])
+  const [dataforLabLISP,setDataForLabLISP] = useState([])
 
   const [dateRange, setDateRange] = useState({
     start: 2010,
@@ -58,7 +61,12 @@ const LabStatistics = () => {
     Promise.all(lab.teams.map(
       (async (team) => {
         const response = await statisticsService.getStatistics({ [`team_abbreviation`]: team.abbreviation });
-        if (response.data) setResearchersStatistics(researcherStatistics => researcherStatistics.concat(response.data));
+        console.log("data for statistics is :");
+        console.log(response.data);
+        if (response.data) {
+          setResearchersStatistics(researcherStatistics => researcherStatistics.concat(response.data));
+          setDataStatistique(e => e.concat(response.data))
+        }
         else throw Error();
       })
     ))
@@ -229,12 +237,24 @@ const LabStatistics = () => {
 
   }, [selectedLabs])
 
+const liste =[]
+  useEffect(() =>{
+    dataForStatistique.forEach(e => {
+      // if(e.yearlyPublications ==2023){
+        liste.push(e)
+      // }
+    });
+  },[statisticsService])
 
+  
 
+const showData = () =>{
+  console.log(dataForStatistique);
+}
 
   return (
     <div className="container">
-
+      <button onClick={showData}>Show data</button>
       <div className="row">
         <div className="col-md-4">
 

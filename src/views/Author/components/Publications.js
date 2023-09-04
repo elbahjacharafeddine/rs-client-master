@@ -136,12 +136,15 @@ const Publications = ({ author, setAuthor, platform, getProfile, data, isFin, us
       });
   };
 
-
+  useEffect(() => {
+   
+    if ( author.publications.length) $(".datatable").DataTable();
+  }, [ author.publications]);
 
   return (
     <div className="card">
       <div className="table-responsive">
-        <table className="table card-table table-vcenter text-nowrap " id="myTable">
+        <table className="table card-table table-vcenter text-nowrap datatable" id="myTable">
           <thead>
             <tr>
               <th>Titre<IconButton onClick={() => showModal()} aria-label="delete">
@@ -160,7 +163,7 @@ const Publications = ({ author, setAuthor, platform, getProfile, data, isFin, us
           </thead>
           <tbody>
             {author.publications &&
-              data
+              author.publications
                 .sort((a, b) => b.title - a.title)
                 .map((publication, index) => (
                   <Publication
