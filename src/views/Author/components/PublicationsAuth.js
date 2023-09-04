@@ -47,8 +47,8 @@ const PublicationsAuth = ({author, setAuthor, platform, getProfile, data, isFin,
  
   useEffect(() => {
    
-    if ( data.length) $(".datatable").DataTable();
-  }, [ data]);
+    if ( author.publications) $(".datatable").DataTable({"order": [[1, "desc"]]});
+  }, [ author.publications]);
 
 
   return (
@@ -69,7 +69,7 @@ const PublicationsAuth = ({author, setAuthor, platform, getProfile, data, isFin,
           </thead>
           <tbody>
             {author.publications &&
-              data
+              author.publications
                 .sort((a, b) => b.title - a.title)
                 .map((publication, index) => (
                   <PublicationAuth

@@ -138,7 +138,7 @@ const Publications = ({ author, setAuthor, platform, getProfile, data, isFin, us
 
   useEffect(() => {
    
-    if ( author.publications.length) $(".datatable").DataTable();
+    if ( author.publications) $(".datatable").DataTable({"order": [[1, "desc"]]});
   }, [ author.publications]);
 
   return (
