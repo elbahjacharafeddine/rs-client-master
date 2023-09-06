@@ -9,7 +9,7 @@ import swal from 'sweetalert';
 import $ from "jquery";
 import "datatables";
 
-const Publications = ({ author, setAuthor, platform, getProfile, data, isFin, user_id}) => {
+const Publications = ({ author, setAuthor, platform, getProfile, data, isFin, user_id, canReload}) => {
   const { ApiServices, user, setUser, alertService } = useContext(AppContext);
   const { pushAlert } = alertService;
   const { userService } = ApiServices;
@@ -136,15 +136,27 @@ const Publications = ({ author, setAuthor, platform, getProfile, data, isFin, us
       });
   };
 
+  // useEffect(() => {
+  //   if (canReload) {
+  //     window.location.reload()
+  //   } else {
+  //     canReload = false
+  //   }
+  // }, [canReload]);
+
   useEffect(() => {
-   
-    if ( author.publications) $(".datatable").DataTable({"order": [[1, "desc"]]});
-  }, [ author.publications]);
+  
+    if (author.publications) {
+      $("#myTable").DataTable({"order": [[1, "desc"]]});
+    }
+  }, [author.publications]);
+  
+  
 
   return (
     <div className="card">
       <div className="table-responsive">
-        <table className="table card-table table-vcenter text-nowrap datatable" id="myTable">
+        <table className="table card-table table-vcenter text-nowrap" id="myTable">
           <thead>
             <tr>
               <th>Titre<IconButton onClick={() => showModal()} aria-label="delete">

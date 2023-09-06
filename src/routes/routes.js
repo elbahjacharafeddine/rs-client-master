@@ -29,6 +29,7 @@ import Galerie from '../views/ManagingEntities/Galerie'
 import Projets from "../views/ManagingEntities/Projets";
 import Mots from "../views/ManagingEntities/Mots"; /////////////
 
+
 import {
   HomeIcon,
   StatisticsIcon,
@@ -49,6 +50,7 @@ import AddBudget from "../views/components/AddBudget";
 import Report from "../views/Statistics/Report";
 import LabReports from "../views/Statistics/LabReports";
 import Organigramme from "../views/Organigramme";
+import MyProfil from "../views/Profile/MyProfil";
 
 
 
@@ -366,6 +368,13 @@ const communPathsCategory = {
       title: "Profile",
       path: "/Profile/:id",
       component: Profile,
+      inMenu: false,
+      roles: allRoles,
+    },
+    {
+      title: "Profile",
+      path: "/my-profile/:id",
+      component: MyProfil,
       inMenu: false,
       roles: allRoles,
     },

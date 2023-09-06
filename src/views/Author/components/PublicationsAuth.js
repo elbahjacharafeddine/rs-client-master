@@ -5,7 +5,7 @@ import Publication from "./Publication";
 import $ from "jquery";
 import "datatables";
 
-const PublicationsAuth = ({author, setAuthor, platform, getProfile, data, isFin, user_id }) => {
+const PublicationsAuth = ({author, setAuthor, platform, getProfile, data, isFin, user_id, canReload }) => {
   const { ApiServices, user, setUser, alertService } = useContext(AppContext);
   const { pushAlert } = alertService;
   const { userService } = ApiServices;
@@ -45,16 +45,29 @@ const PublicationsAuth = ({author, setAuthor, platform, getProfile, data, isFin,
     }));
   };
  
+
+  // useEffect(() => {
+  //   if (canReload) {
+  //     window.location.reload()
+  //   } else {
+  //     canReload = false
+  //   }
+  // }, [canReload]);
+
   useEffect(() => {
-   
-    if ( author.publications) $(".datatable").DataTable({"order": [[1, "desc"]]});
-  }, [ author.publications]);
+  
+    if (author.publications) {
+      $("#myT").DataTable({"order": [[1, "desc"]]});
+    }
+  }, [author.publications]);
+  
+  
 
 
   return (
     <div className="card">
       <div className="table-responsive">
-        <table className="table card-table table-vcenter text-nowrap datatable ">
+        <table className="table card-table table-vcenter text-nowrap" id="myT">
           <thead>
             <tr>
               <th>Titre</th>

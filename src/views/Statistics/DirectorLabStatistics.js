@@ -282,7 +282,7 @@ const [chartt, setChartt] = useState({
 
   return (
     <div className="container">
-      <button onClick={showData}>Show data</button>
+      {/* <button onClick={showData}>Show data</button> */}
       <div className="row">
         <div className="col-md-4">
 
