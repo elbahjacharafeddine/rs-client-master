@@ -76,6 +76,7 @@ import React, {
                               data={profileUser.correspondingFollowedUser.publications}
                               isFin={true}
                               user_id={id}
+                              fromProfile={true}
                             />
                           )
                         } 

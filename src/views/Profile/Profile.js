@@ -334,6 +334,7 @@ const Profile = () => {
                             data={correspondingFollowedUser.publications}
                             isFin={true}
                             user_id={id}
+                            fromProfile={true}
                           />
                         )
                       // }

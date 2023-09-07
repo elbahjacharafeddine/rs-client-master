@@ -5,7 +5,7 @@ import Publication from "./Publication";
 import $ from "jquery";
 import "datatables";
 
-const PublicationsAuth = ({author, setAuthor, platform, getProfile, data, isFin, user_id, canReload }) => {
+const PublicationsAuth = ({author, setAuthor, platform, getProfile, data, isFin, user_id, fromProfile }) => {
   const { ApiServices, user, setUser, alertService } = useContext(AppContext);
   const { pushAlert } = alertService;
   const { userService } = ApiServices;
@@ -56,7 +56,7 @@ const PublicationsAuth = ({author, setAuthor, platform, getProfile, data, isFin,
 
   useEffect(() => {
   
-    if (author.publications) {
+    if (author.publications && fromProfile) {
       $("#myT").DataTable({"order": [[1, "desc"]]});
     }
   }, [author.publications]);

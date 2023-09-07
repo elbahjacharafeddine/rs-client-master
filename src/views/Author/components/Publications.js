@@ -9,7 +9,7 @@ import swal from 'sweetalert';
 import $ from "jquery";
 import "datatables";
 
-const Publications = ({ author, setAuthor, platform, getProfile, data, isFin, user_id, canReload}) => {
+const Publications = ({ author, setAuthor, platform, getProfile, data, isFin, user_id, fromProfile}) => {
   const { ApiServices, user, setUser, alertService } = useContext(AppContext);
   const { pushAlert } = alertService;
   const { userService } = ApiServices;
@@ -146,7 +146,7 @@ const Publications = ({ author, setAuthor, platform, getProfile, data, isFin, us
 
   useEffect(() => {
   
-    if (author.publications) {
+    if (author.publications && fromProfile) {
       $("#myTable").DataTable({"order": [[1, "desc"]]});
     }
   }, [author.publications]);
