@@ -88,11 +88,12 @@ const PublicationAuth = ({
     ws.onmessage = async (event) => {
       try {
         const receivedData = JSON.parse(event.data);
+        console.log(receivedData);
         console.log(receivedData.SJR);
         setIsFetched(true);
         updatePublication(index, {
           ...publication,
-          // IF: receivedData.SJR,
+          IF: receivedData.IF,
           SJR: receivedData.SJR,
           searchedFor: true,
         });
@@ -101,12 +102,13 @@ const PublicationAuth = ({
             id:user_id,
             title: publication.title,
             SJR: receivedData.SJR,
+            IF: receivedData.IF,
             year: publication.year
           }
           console.log(SJR);
           const res = await userService.addSJR(SJR)
           console.log("update for SJR :");
-          console.log(res);
+          // console.log(res);
           if (res.status==200) {
             console.log("saved with succes");
           }

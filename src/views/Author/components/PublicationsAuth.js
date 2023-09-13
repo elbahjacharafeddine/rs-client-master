@@ -55,10 +55,14 @@ const PublicationsAuth = ({author, setAuthor, platform, getProfile, data, isFin,
   // }, [canReload]);
 
   useEffect(() => {
-  
-    if (author.publications && fromProfile) {
-      $("#myT").DataTable({"order": [[1, "desc"]]});
-    }
+    // var table = $('#myT').DataTable();
+
+    // if (table != null) {
+    //     table.destroy();
+    // }
+    // if (author.publications && fromProfile) {
+    //   $("#myT").DataTable({"order": [[1, "desc"]]});
+    // }
   }, [author.publications]);
   
   
@@ -73,7 +77,7 @@ const PublicationsAuth = ({author, setAuthor, platform, getProfile, data, isFin,
               <th>Titre</th>
               <th className="text-center">Année</th>
               <th className="text-center">Citée</th>
-              <th className="text-center">IF</th>
+              <th className="text-center">JIF QUARTILE</th>
               <th className="text-center">SJR</th>
               <th className="text-center">
                 Récupération <br /> des données

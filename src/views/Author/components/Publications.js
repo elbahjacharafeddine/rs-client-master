@@ -164,7 +164,7 @@ const Publications = ({ author, setAuthor, platform, getProfile, data, isFin, us
               </IconButton></th>
               <th className="text-center">Année</th>
               <th className="text-center">Citée</th>
-              <th className="text-center">IF</th>
+              <th className="text-center">JIF QUARTILE</th>
               <th className="text-center">SJR</th>
               <th className="text-center">
                 Récupération <br /> des données

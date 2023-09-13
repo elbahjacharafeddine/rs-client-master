@@ -222,7 +222,7 @@ const Publication = ({
         setIsFetched(true);
         updatePublication(index, {
           ...publication,
-          // IF: receivedData.SJR,
+          IF: receivedData.IF,
           SJR: receivedData.SJR,
           searchedFor: true,
         });
@@ -232,6 +232,7 @@ const Publication = ({
             source:journalName,
             title: publication.title,
             SJR: receivedData.SJR,
+            IF: receivedData.IF,
             year: publication.year
           }
           console.log(SJR);

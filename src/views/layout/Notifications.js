@@ -86,30 +86,11 @@ const Notifications = () => {
       );
 
       try {
-        // let newPublications =[]
-        // const ws = new WebSocket('ws://localhost:2000');
-        // ws.onopen = () => {
-        //   console.log('WebSocket connection opened for notifications ');
-        //   const auth = {
-        //     authorId:followedUser.authorId
-        //   }
-        //   ws.send(JSON.stringify(auth))
-        // };
-
-        // const response = await scraperService.getAuthorData(
-        //   followedUser.platform,
-        //   followedUser.authorId
-        // );
-
+  
         // const response = await Axios.get('http://localhost:2000/prof/scopus/'+followedUser.authorId)
         const response = await Axios.get('https://rs-scraper-master.onrender.com/prof/scopus/' + followedUser.authorId)
         // const response = await Axios.get('https://k19ychwqi2.eu.loclx.io/prof/scopus/' + followedUser.authorId)
-        // console.log("");
-        // console.log(response.data);
 
-        // ws.onmessage = (event) => {
-        //   const receivedData = JSON.parse(event.data);
-        //   console.log(receivedData);
 
 
         if (!response.data.author) throw new Error();
