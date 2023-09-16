@@ -59,7 +59,7 @@ const makeApiServices = ({ token, alertService }) => {
 
   const scraperApi = axios.create({
     baseURL: process.env.REACT_APP_SCRAPER_URL,
-    timeout: 99000,
+    timeout: 40000,
     headers: { "Content-Type": "application/json" },
   });
 
