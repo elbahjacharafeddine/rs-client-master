@@ -23,6 +23,8 @@ const AuthorSearch = () => {
   const { pushAlert } = alertService;
   const { scraperService } = ApiServices;
 
+  const apiUrl = process.env.REACT_APP_API_URL
+
   const authorSearch = useCallback(async () => {
     const authorNamePath = authorName.replace(" ", "%20");
 
@@ -45,16 +47,52 @@ const AuthorSearch = () => {
     }
   }, [authorName, isError, noResultFound]);
 
+
+  const authorSearchh = useCallback(async() =>{
+    const authorNamePath = authorName.replace(" ", "%20");
+      setIsLoading(true)
+      const ws = new WebSocket(apiUrl)
+      try {
+        ws.onopen = () => {
+          console.log('WebSocket connection opened to search about '+ authorNamePath);
+          const author = {
+            authorName: authorNamePath
+          }
+          ws.send(JSON.stringify(author))
+        };
+  
+        ws.onmessage = (event) => {
+          const receivedData = JSON.parse(event.data);
+          console.log(receivedData);
+          if(receivedData.error){
+            console.log(receivedData.error);
+            setNoResultFound(true);
+            setIsLoading(false)
+          }
+          else if(receivedData){
+            setAuthors(receivedData);
+            setNoResultFound(false);
+            setIsError(false);
+            setIsLoading(false);
+          }
+        }  
+      }
+     catch (error) {
+      console.log("error");
+    }
+  },[])
+
   useEffect(() => {
     if (authors.length) setAuthors([]);
     if (noResultFound) setNoResultFound(false);
     if (isError) setIsError(false);
 
-    authorSearch();
+    authorSearchh();
   }, [authorName]);
 
   return (
     <div className="container">
+      <p>{apiUrl}</p>
       <PageHeader
         title={"Chercher l'auteur : " + authorName}
         subTitle={authors.length ? authors.length + " chercheurs" : ""}

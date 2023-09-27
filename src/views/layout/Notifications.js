@@ -26,6 +26,7 @@ const Notifications = () => {
   const [notifications, setNotifications] = useState([]);
   const [followedUsers, setFollowedResearchers] = useState([]);
   const [start, setStart] = useState(true)
+  const apiUrl = process.env.REACT_APP_API_URL;
 
 
   const findUserNotifications = useCallback(async () => {
@@ -89,7 +90,6 @@ const Notifications = () => {
   
         // const response = await Axios.get('http://localhost:2000/prof/scopus/'+followedUser.authorId)
         const response = await Axios.get('https://rs-scraper-master.onrender.com/prof/scopus/' + followedUser.authorId)
-        // const response = await Axios.get('https://k19ychwqi2.eu.loclx.io/prof/scopus/' + followedUser.authorId)
 
 
 

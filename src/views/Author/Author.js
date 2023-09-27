@@ -56,6 +56,8 @@ const Author = (props) => {
 
   const [ListPublications, setListPublications] = useState([]);
 
+  const apiUrl = process.env.REACT_APP_API_URL;
+
 
   const handleReceivedData = () => {
     console.log(ListPublications);
@@ -124,10 +126,10 @@ const Author = (props) => {
       console.log("authorized");
     }
   }, []);
-//
-  // const ws = new WebSocket('ws://localhost:2000');
-  const ws = new WebSocket('wss://rs-scraper-master.onrender.com/'); // Remplacez l'URL en conséquence
-// 
+
+  const ws = new WebSocket(apiUrl);
+  // const ws = new WebSocket('wss://rs-scraper-master.onrender.com/');
+
   const getAuthorDataa = useCallback(async () => {
     try {
       ws.onopen = () => {

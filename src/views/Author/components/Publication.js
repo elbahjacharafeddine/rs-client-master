@@ -30,6 +30,7 @@ const Publication = ({
   const [isLoading, setIsLoading] = useState(false);
 
   const [newNumero, setNewNumero] = useState(0);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
 
   useEffect(() => {
@@ -186,8 +187,8 @@ const Publication = ({
 
     setIsLoading(true)
 
-    // const ws = new WebSocket('ws://localhost:2000');
-    const ws = new WebSocket('wss://rs-scraper-master.onrender.com/'); // Remplacez l'URL en conséquence
+    const ws = new WebSocket(apiUrl);
+    // const ws = new WebSocket('wss://rs-scraper-master.onrender.com/');
 
     const journalName = publication.source
       ? publication.source

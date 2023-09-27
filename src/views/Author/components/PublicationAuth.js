@@ -27,7 +27,7 @@ const PublicationAuth = ({
   const [isLoading, setIsLoading] = useState(false);
 
   const [newNumero, setNewNumero] = useState(num_to_start);
-
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
 
@@ -56,9 +56,8 @@ const PublicationAuth = ({
 
     setIsLoading(true)
 
-    // const ws = new WebSocket('ws://localhost:2000');
-    // const ws = new WebSocket('ws://rsscraper.hopto.org:2000')
-    const ws = new WebSocket('wss://rs-scraper-master.onrender.com/'); // Remplacez l'URL en conséquence
+    const ws = new WebSocket(apiUrl);
+    // const ws = new WebSocket('wss://rs-scraper-master.onrender.com/');
 
     const journalName = publication.source
       ? publication.source
