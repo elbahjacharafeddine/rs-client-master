@@ -92,7 +92,6 @@ const AuthorSearch = () => {
 
   return (
     <div className="container">
-      <p>{apiUrl}</p>
       <PageHeader
         title={"Chercher l'auteur : " + authorName}
         subTitle={authors.length ? authors.length + " chercheurs" : ""}
